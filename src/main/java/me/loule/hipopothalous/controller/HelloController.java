@@ -1,4 +1,4 @@
-package me.loule.hipopothalous;
+package me.loule.hipopothalous.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

@@ -8,4 +8,6 @@ module me.loule.hipopothalous {
 
     opens me.loule.hipopothalous to javafx.fxml;
     exports me.loule.hipopothalous;
+    exports me.loule.hipopothalous.controller;
+    opens me.loule.hipopothalous.controller to javafx.fxml;
 }
