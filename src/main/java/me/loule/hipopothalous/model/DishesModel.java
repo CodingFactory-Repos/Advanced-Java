@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DishesModel {
-
-    private Integer dishesId;
     private String name;
     private String description;
     private Double price;
@@ -17,8 +15,7 @@ public class DishesModel {
     static Connection connection = DatabaseConnection.getConnection();
 
 
-    public DishesModel(Integer dishesId, String name, String description, Double price, String image) {
-        this.dishesId = dishesId;
+    public DishesModel( String name, String description, Double price, String image) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -41,8 +38,7 @@ public class DishesModel {
                 ResultSet rs = statement.executeQuery("SELECT * FROM dishes");
                 List<DishesModel> dishes = new ArrayList<>();
                 while (rs.next()) {
-                    System.out.println(rs.getInt("dishes_id"));
-                    dishes.add(new DishesModel(rs.getInt("dishes_id"),rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("image")));
+                    dishes.add(new DishesModel(rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("image")));
                 }
                 return dishes;
             }
@@ -52,13 +48,6 @@ public class DishesModel {
         return null;
     }
 
-    public Integer getDishesId() {
-        return dishesId;
-    }
-
-    public void setDishesId(Integer dishesId) {
-        this.dishesId = dishesId;
-    }
 
     public String getName() {
         return name;
@@ -95,7 +84,6 @@ public class DishesModel {
     @Override
     public String toString() {
         return "DishesModel{" +
-                "dishesId=" + dishesId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
