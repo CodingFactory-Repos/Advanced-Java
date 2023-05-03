@@ -5,6 +5,7 @@ module me.loule.hipopothalous {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
+    requires java.sql;
 
     opens me.loule.hipopothalous to javafx.fxml;
     exports me.loule.hipopothalous;
