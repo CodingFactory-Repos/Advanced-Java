@@ -42,8 +42,8 @@ public class Dish implements Initializable {
         dishes = DishesModel.getAllDish();
         assert dishes != null;
         dishes.stream().forEach(dish -> {
-            System.out.println(dish.getName());
-            dishComponent = new DishComponent(dish.getImage(), dish.getName(), dish.getPrice());
+//            System.out.println(dish.getName());
+            dishComponent = new DishComponent(dish.getImage(), dish.getName(), dish.getPrice(), dish.getDescription());
             listVBox.getChildren().add(dishComponent);
         });
     }
@@ -61,7 +61,7 @@ public class Dish implements Initializable {
     @FXML
     protected void addDishes() {
         DishesModel.addDish(nameTextField.getText(), descriptionTextField.getText(), Double.parseDouble(priceTextField.getText()), pictureTextField.getText());
-        dishComponent = new DishComponent(pictureTextField.getText(), nameTextField.getText(), Double.parseDouble(priceTextField.getText()));
+        dishComponent = new DishComponent(pictureTextField.getText(), nameTextField.getText(), Double.parseDouble(priceTextField.getText()), descriptionTextField.getText());
         listVBox.getChildren().add(dishComponent);
         addDishesHBox.setVisible(!addDishesHBox.isVisible());
         listScrollPane.setVisible(!listScrollPane.isVisible());
