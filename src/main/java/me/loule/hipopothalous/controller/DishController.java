@@ -3,52 +3,42 @@ package me.loule.hipopothalous.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import me.loule.hipopothalous.model.DishesModel;
+import me.loule.hipopothalous.model.Dishes;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class Dish implements Initializable {
+public class DishController implements Initializable {
 
-    @FXML
-    private Button addDishesButton;
+    public Button addDishesButton;
 
-    private List<DishesModel> dishes;
+    public List<Dishes> dishes;
+    public TextField nameTextField;
+    public TextField descriptionTextField;
+    public TextField priceTextField;
+    public TextField pictureTextField;
+    public Button validateButton;
+    public HBox addDishesHBox;
     @FXML
-    private TextField nameTextField;
-    @FXML
-    private TextField descriptionTextField;
-    @FXML
-    private TextField priceTextField;
-    @FXML
-    private TextField pictureTextField;
-    @FXML
-    private Button validateButton;
-    @FXML
-    private HBox addDishesHBox;
-    @FXML
-    private VBox listVBox;
-    private DishComponent dishComponent;
-    @FXML
-    private ScrollPane listScrollPane;
+    public VBox listVBox;
+    public DishComponent dishComponent;
+    public ScrollPane listScrollPane;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        dishes = DishesModel.getAllDish();
+        dishes = Dishes.getAllDish();
         assert dishes != null;
         dishes.stream()
-                .sorted(Comparator.comparing(DishesModel::getName))
+                .sorted(Comparator.comparing(Dishes::getName))
                 .forEach(dish -> {
+                    System.out.println(dish.getName());
                     dishComponent = new DishComponent(dish.getImage(), dish.getName(), dish.getPrice(), dish.getDescription());
                     listVBox.getChildren().add(dishComponent);
                 });
@@ -63,7 +53,10 @@ public class Dish implements Initializable {
         pictureTextField.setText("");
         listScrollPane.setVisible(!listScrollPane.isVisible());
     }
-
+    @FXML
+    protected void createPdf() throws FileNotFoundException {
+        PdfConverter.createPdf(5000.0, 6000.0);
+    }
     @FXML
     protected void addDishes() {
         String dishName = nameTextField.getText();
@@ -95,10 +88,10 @@ public class Dish implements Initializable {
         }
 
 
-        DishesModel.addDish(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture);
+        Dishes.addDish(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture);
         dishComponent = new DishComponent(dishPicture, dishName, Double.valueOf(dishPrice), dishDescription);
 
-        dishes.add(new DishesModel(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture));
+        dishes.add(new Dishes(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture));
 
         listVBox.getChildren().add(dishComponent);
 
