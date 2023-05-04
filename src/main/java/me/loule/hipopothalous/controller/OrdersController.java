@@ -5,7 +5,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.DatabaseConnection;
-import me.loule.hipopothalous.model.Orders;
 
 import java.sql.*;
 import java.util.ArrayList;

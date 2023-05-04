@@ -5,7 +5,7 @@ import javafx.beans.value.ObservableValue;
 
 import java.sql.Timestamp;
 
-public class Orders {
+public class OrdersModel {
     private IntegerProperty id;
     private StringProperty status;
     private DoubleProperty price;
@@ -13,7 +13,7 @@ public class Orders {
     private IntegerProperty personsPerTable;
     private Timestamp date;
 
-    public Orders(int id, String status, double price, int tableNumber, int personsPerTable, Timestamp date) {
+    public OrdersModel(int id, String status, double price, int tableNumber, int personsPerTable, Timestamp date) {
         this.id = new SimpleIntegerProperty(id);
         this.status = new SimpleStringProperty(status);
         this.price = new SimpleDoubleProperty(price);
