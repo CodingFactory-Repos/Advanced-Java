@@ -155,6 +155,7 @@ public class OrdersController {
 
     }
 
+    @FXML
     public void addOrder() {
         if (tfPersonNumber.getText().equals("") || tfTableNumber.getText().equals("") || orderDishes.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
