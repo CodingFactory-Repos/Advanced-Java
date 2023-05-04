@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="me.loule.hipopothalous.controller.TableController">
+    <children>
+        <VBox alignment="CENTER">
+            <Label text="Gestion des tables du restaurant"/>
+            <HBox spacing="10">
+                <VBox spacing="5">
+                    <Label text="Tables disponibles"/>
+                    <TableView fx:id="availableTables" prefHeight="200" prefWidth="300">
+                        <columns>
+                            <TableColumn text="Taille" fx:id="tableSize"/>
+                            <TableColumn text="Emplacement" fx:id="tableLocation"/>
+                        </columns>
+                    </TableView>
+                    <HBox spacing="5">
+                        <Button text="Assigner" onAction="#assignTable"/>
+                        <Button text="Libérer" onAction="#releaseTable"/>
+                    </HBox>
+                </VBox>
+                <VBox spacing="5">
+                    <Label text="Enregistrer une table"/>
+                    <TextField fx:id="tableSizeInput" promptText="Taille"/>
+                    <TextField fx:id="tableLocationInput" promptText="Emplacement"/>
+                    <Button text="Ajouter" onAction="#addTable"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </children>
+</AnchorPane>
