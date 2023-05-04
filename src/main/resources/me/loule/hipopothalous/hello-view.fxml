@@ -9,7 +9,7 @@
     <stylesheets>
         <URL value="@style.css" />
     </stylesheets>
-    <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <HBox fx:id="parentHbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
             <VBox prefHeight="328.0" prefWidth="128.0" spacing="10" styleClass="menu-bar">
                 <children>
@@ -19,16 +19,21 @@
                     <Button fx:id="ordersButton" onMouseClicked="#onOrdersButtonClick" styleClass="menu-button" text="Commandes" />
                     <Button styleClass="menu-button" text="Statistiques" />
                     <Button styleClass="menu-button" text="Paramètres" />
+               <VBox prefHeight="268.0" prefWidth="108.0">
+                  <children>
+                      <Button fx:id="ServiceBtn" onAction="#ChangeService" text="Service" />
+                     <Label fx:id="timerLbl" text="Label" />
+                  </children></VBox>
                 </children>
             </VBox>
             <StackPane prefHeight="100.0" prefWidth="200.0">
                 <children>
-                    <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <fx:include fx:id="ordersPanel" source="orders2.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <VBox alignment="CENTER" fx:id="welcomeVBox">
-                        <Label styleClass="title" text="Bienvenue chez MonRestaurant"/>
-                        <Label text="Ce logiciel permet la gestion des tables et des plats"/>
+                    <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <fx:include fx:id="ordersPanel" source="orders2.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <VBox fx:id="welcomeVBox" alignment="CENTER">
+                        <Label styleClass="title" text="Bienvenue chez MonRestaurant" />
+                        <Label text="Ce logiciel permet la gestion des tables et des plats" />
                     </VBox>
                 </children>
                 <StackPane.margin>
