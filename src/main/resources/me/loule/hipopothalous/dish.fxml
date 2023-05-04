@@ -3,20 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.DishController">
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.DishController">
    <children>
       <VBox alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="600.0">
+            <HBox alignment="CENTER" prefHeight="25.0" prefWidth="1000.0">
                <children>
                   <Label text="Liste des plats" />
                   <Button fx:id="addDishesButton" mnemonicParsing="false" onMouseClicked="#onAddDishesButtonClick" text="Ajouter plats" />
-                  <Button mnemonicParsing="false" text="Créer PDF" onMouseClicked="#createPdf" />
                </children>
             </HBox>
-            <ScrollPane fx:id="listScrollPane" pannable="true" prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane fx:id="listScrollPane" pannable="true" prefHeight="400.0" prefWidth="200.0">
                <content>
-                  <VBox fx:id="listVBox" prefHeight="200.0" />
+                  <VBox fx:id="listVBox" alignment="CENTER" prefHeight="200.0" />
                </content>
             </ScrollPane>
             <HBox fx:id="addDishesHBox" alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0" visible="false">

@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.DatabaseConnection;
 import me.loule.hipopothalous.model.Orders;
 
+import java.io.FileNotFoundException;
 import java.sql.*;
 
 public class CheckOrders {
@@ -70,6 +71,15 @@ public class CheckOrders {
         getData();
         selectRow();
         handleMenuButton();
+    }
+
+    /**
+     * @throws FileNotFoundException
+     * This function is used to call the "createPdf" function
+     */
+    @FXML
+    protected void createPdf() throws FileNotFoundException {
+        PdfConverter.createPdf();
     }
 
     private void getData() {

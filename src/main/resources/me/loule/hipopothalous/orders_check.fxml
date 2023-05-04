@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="ordersCheckPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.CheckOrders">
+<AnchorPane fx:id="ordersCheckPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.CheckOrders">
    <children>
       <VBox>
          <children>
@@ -73,6 +62,7 @@
             <HBox fx:id="hbButtons" alignment="CENTER" prefHeight="50.0" visible="false">
                <children>
                   <Button fx:id="btnCancelOrder" alignment="CENTER" mnemonicParsing="false" onMousePressed="#handleCancelOrder" text="Cancel Order" />
+                  <Button mnemonicParsing="false" text="Create PDF" onMouseClicked="#createPdf"/>
                </children>
             </HBox>
          </children>

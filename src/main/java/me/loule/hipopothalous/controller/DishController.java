@@ -74,14 +74,6 @@ public class DishController implements Initializable {
         listScrollPane.setVisible(!listScrollPane.isVisible());
     }
 
-    /**
-     * @throws FileNotFoundException
-     * This function is used to call the "createPdf" function
-     */
-    @FXML
-    protected void createPdf() throws FileNotFoundException {
-        PdfConverter.createPdf();
-    }
 
     /**
      * This function put the data entered by the user and put it in the database

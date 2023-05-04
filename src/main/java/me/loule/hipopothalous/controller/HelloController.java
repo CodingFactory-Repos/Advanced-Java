@@ -21,6 +21,8 @@ import java.util.function.Consumer;
 
 public class HelloController implements Initializable {
 
+    @FXML
+    private Pane ordersCheckPanel;
     private Chronometry Chronometre;
 
     @FXML
@@ -51,6 +53,7 @@ public class HelloController implements Initializable {
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         welcomeVBox.setVisible(true);
     }
 
@@ -62,6 +65,7 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         tablesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         dishesPanel.setVisible(true);
 
     }
@@ -74,7 +78,20 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         ordersPanel.setVisible(true);
+    }
+
+    /**
+     * This function show the orders check panel and hide everything else
+     */
+    @FXML
+    protected void onOrdersCheckButtonClick() {
+        welcomeVBox.setVisible(false);
+        dishesPanel.setVisible(false);
+        tablesPanel.setVisible(false);
+        ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(true);
     }
 
     /**
@@ -85,6 +102,7 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         tablesPanel.setVisible(true);
     }
 
