@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class DishesModel {
+public class Dishes {
     private String name;
     private String description;
     private Double price;
     private String image;
     static Connection connection = DatabaseConnection.getConnection();
 
-    public DishesModel(String name, String description, Double price, String image) {
+    public Dishes(String name, String description, Double price, String image) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -35,13 +35,13 @@ public class DishesModel {
         }
     }
 
-    public static List<DishesModel> getAllDish() {
+    public static List<Dishes> getAllDish() {
         String sql = "SELECT * FROM dishes";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet rs = preparedStatement.executeQuery();
-            List<DishesModel> dishes = new ArrayList<>();
+            List<Dishes> dishes = new ArrayList<>();
             while (rs.next()) {
-                dishes.add(new DishesModel(rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("image")));
+                dishes.add(new Dishes(rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("image")));
             }
             return dishes;
         } catch (SQLException e) {
