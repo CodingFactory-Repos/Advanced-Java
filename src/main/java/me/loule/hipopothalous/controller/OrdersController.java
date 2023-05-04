@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import me.loule.hipopothalous.model.Accounting;
 import me.loule.hipopothalous.model.DatabaseConnection;
 
 import java.sql.*;
@@ -182,6 +183,7 @@ public class OrdersController {
                         preparedStatement.setInt(3, Integer.parseInt(tfTableNumber.getText()));
                         preparedStatement.setInt(4, Integer.parseInt(tfPersonNumber.getText()));
                         preparedStatement.setTimestamp(5, timestamp);
+                        Accounting.createAccounting("addDish", Math.round(price * 100.0) / 100.0, timestamp);
                         preparedStatement.executeUpdate();
                     }
 

@@ -8,7 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import me.loule.hipopothalous.model.DishesModel;
+import me.loule.hipopothalous.model.Dishes;
 
 import java.net.URL;
 import java.util.Comparator;
@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class Dish implements Initializable {
+public class DishController implements Initializable {
 
     @FXML
     private Button addDishesButton;
 
-    private List<DishesModel> dishes;
+    private List<Dishes> dishes;
     @FXML
     private TextField nameTextField;
     @FXML
@@ -43,10 +43,10 @@ public class Dish implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        dishes = DishesModel.getAllDish();
+        dishes = Dishes.getAllDish();
         assert dishes != null;
         dishes.stream()
-                .sorted(Comparator.comparing(DishesModel::getName))
+                .sorted(Comparator.comparing(Dishes::getName))
                 .forEach(dish -> {
                     dishComponent = new DishComponent(dish.getImage(), dish.getName(), dish.getPrice(), dish.getDescription());
                     listVBox.getChildren().add(dishComponent);
@@ -94,10 +94,10 @@ public class Dish implements Initializable {
         }
 
 
-        DishesModel.addDish(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture);
+        Dishes.addDish(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture);
         dishComponent = new DishComponent(dishPicture, dishName, Double.valueOf(dishPrice), dishDescription);
 
-        dishes.add(new DishesModel(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture));
+        dishes.add(new Dishes(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture));
 
         listVBox.getChildren().add(dishComponent);
 
