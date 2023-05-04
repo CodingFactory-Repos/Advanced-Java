@@ -3,24 +3,29 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.HelloController">
    <VBox prefHeight="200.0" prefWidth="100.0">
       <children>
          <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0">
             <children>
                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="B1" textAlignment="CENTER" />
-               <Button fx:id="dishesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="Dishes" textAlignment="CENTER" onMouseClicked="#onDishesButtonClick" />
-               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="B3" textAlignment="CENTER" />
+               <Button fx:id="dishesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#onDishesButtonClick" prefHeight="45.0" prefWidth="100.0" text="Dishes" textAlignment="CENTER" />
+               <Button fx:id="tablesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#onTablesButtonClick" prefHeight="45.0" prefWidth="100.0" text="Tables" textAlignment="CENTER" />
                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="B4" textAlignment="CENTER" />
                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="B5" textAlignment="CENTER" />
                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="B6" textAlignment="CENTER" />
             </children>
          </HBox>
-         <HBox prefHeight="100.0" prefWidth="200.0">
+         <StackPane prefHeight="100.0" prefWidth="200.0">
             <children>
-               <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" />
+               <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER"/>
+               <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER"/>
             </children>
-         </HBox>
+            <StackPane.margin>
+               <Insets top="-50" />
+            </StackPane.margin>
+         </StackPane>
       </children>
    </VBox>
 </AnchorPane>
