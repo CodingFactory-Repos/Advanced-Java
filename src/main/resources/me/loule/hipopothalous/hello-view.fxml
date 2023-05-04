@@ -1,45 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.geometry.Insets?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.HelloController">
-    <VBox prefHeight="200.0" prefWidth="100.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.HelloController">
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
+    <HBox fx:id="parentHbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                  prefWidth="600.0" spacing="10">
+            <VBox prefHeight="328.0" prefWidth="128.0" spacing="10" styleClass="menu-bar">
                 <children>
-                    <Button fx:id="welcomeButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                            onMouseClicked="#onWelcomeButtonClick" prefHeight="45.0" prefWidth="100.0" text="Accueil"
-                            textAlignment="CENTER"/>
-                    <Button fx:id="dishesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                            onMouseClicked="#onDishesButtonClick" prefHeight="45.0" prefWidth="100.0" text="Plats"
-                            textAlignment="CENTER"/>
-                    <Button fx:id="tablesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                            onMouseClicked="#onTablesButtonClick" prefHeight="45.0" prefWidth="100.0" text="Tables"
-                            textAlignment="CENTER"/>
-                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0"
-                            onMousePressed="#onOrdersButtonClick" prefWidth="100.0" text="Commandes" textAlignment="CENTER"/>
-                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0"
-                            prefWidth="100.0" text="Statistiques" textAlignment="CENTER"/>
-                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0"
-                            prefWidth="100.0" text="Paramètres" textAlignment="CENTER"/>
+                    <Button fx:id="welcomeButton" onMouseClicked="#onWelcomeButtonClick" styleClass="menu-button" text="Accueil" />
+                    <Button fx:id="dishesButton" onMouseClicked="#onDishesButtonClick" styleClass="menu-button" text="Plats" />
+                    <Button fx:id="tablesButton" onMouseClicked="#onTablesButtonClick" styleClass="menu-button" text="Tables" />
+                    <Button fx:id="ordersButton" onMouseClicked="#onOrdersButtonClick" styleClass="menu-button" text="Commandes" />
+                    <Button styleClass="menu-button" text="Statistiques" />
+                    <Button styleClass="menu-button" text="Paramètres" />
+               <VBox prefHeight="268.0" prefWidth="108.0">
+                  <children>
+                      <Button fx:id="ServiceBtn" onAction="#ChangeService" text="Service" />
+                     <Label fx:id="timerLbl" text="Label" />
+                  </children></VBox>
                 </children>
-            </HBox>
+            </VBox>
             <StackPane prefHeight="100.0" prefWidth="200.0">
                 <children>
-                    <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <fx:include fx:id="ordersPanel" source="orders2.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <VBox alignment="CENTER" fx:id="welcomeVBox">
-                        <Label styleClass="title" text="Bienvenue chez MonRestaurant"/>
-                        <Label text="Ce logiciel permet la gestion des tables et des plats"/>
+                    <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <fx:include fx:id="ordersPanel" source="orders2.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <VBox fx:id="welcomeVBox" alignment="CENTER">
+                        <Label styleClass="title" text="Bienvenue chez MonRestaurant" />
+                        <Label text="Ce logiciel permet la gestion des tables et des plats" />
                     </VBox>
                 </children>
                 <StackPane.margin>
-                    <Insets top="-50"/>
+                    <Insets top="-50" />
                 </StackPane.margin>
+            <padding>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
             </StackPane>
         </children>
-    </VBox>
+    </HBox>
 </AnchorPane>
