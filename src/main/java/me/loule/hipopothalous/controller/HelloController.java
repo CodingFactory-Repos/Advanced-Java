@@ -16,6 +16,9 @@ public class HelloController {
     private Pane tablesPanel;
 
     @FXML
+    private Pane ordersCheckPanel;
+
+    @FXML
     private AnchorPane ordersPanel;
 
     //When we click on the welcomeButton, the welcomeVBox will be visible
@@ -24,6 +27,7 @@ public class HelloController {
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         welcomeVBox.setVisible(true);
     }
 
@@ -33,6 +37,7 @@ public class HelloController {
         welcomeVBox.setVisible(false);
         tablesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         dishesPanel.setVisible(true);
 
     }
@@ -43,6 +48,7 @@ public class HelloController {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         ordersPanel.setVisible(!isVisible);
     }
     @FXML
@@ -50,6 +56,16 @@ public class HelloController {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         tablesPanel.setVisible(true);
+    }
+
+    @FXML
+    protected void onOrdersCheckButtonClick() {
+        welcomeVBox.setVisible(false);
+        dishesPanel.setVisible(false);
+        tablesPanel.setVisible(false);
+        ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(true);
     }
 }
