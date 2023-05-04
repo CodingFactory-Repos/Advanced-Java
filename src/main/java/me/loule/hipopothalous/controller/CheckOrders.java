@@ -159,10 +159,10 @@ public class CheckOrders {
                 getData();
                 handleCloseVbox();
                 handleHboxCancel();
-//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                alert.setTitle("Success");
-//                alert.setHeaderText("Order updated successfully");
-//                alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText("Order updated successfully");
+                alert.showAndWait();
             } catch (SQLException e) {
                 e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
