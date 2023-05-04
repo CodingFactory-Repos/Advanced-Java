@@ -35,7 +35,7 @@
                               <Label text="Persons" GridPane.rowIndex="1" />
                               <TextField fx:id="tfPersonNumber" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Table" />
-                              <ChoiceBox fx:id="tfTableNumber" GridPane.columnIndex="1" />
+                              <TextField fx:id="tfTableNumber" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                      </children>
