@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.DatabaseConnection;
 import me.loule.hipopothalous.model.Orders;
@@ -46,6 +47,10 @@ public class CheckOrders {
     Button btnConfirmUpdate;
     @FXML
     Button btnCloseVbox;
+    @FXML
+    Button btnCancelOrder;
+    @FXML
+    HBox hbButtons;
     Object[] selectedOrder;
     String newStatusValue = "";
 
@@ -80,7 +85,7 @@ public class CheckOrders {
             Connection connection = DatabaseConnection.getConnection();
             ResultSet rs;
             try (Statement statement = connection.createStatement()) {
-                String sql = "SELECT * FROM orders ORDER BY date DESC";
+                String sql = "SELECT * FROM orders WHERE status = 'ordered' ORDER BY date DESC";
                 rs = statement.executeQuery(sql);
                 while (rs.next()) {
                     orders.add(new Orders(
@@ -129,6 +134,7 @@ public class CheckOrders {
                     tfOrderTable.setText(String.valueOf(selectedOrder[4]));
                     tfOrderDate.setText(String.valueOf(selectedOrder[5]));
                     vbTextFields.setVisible(true);
+                    hbButtons.setVisible(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -170,6 +176,7 @@ public class CheckOrders {
                 orders.clear();
                 getData();
                 handleCloseVbox();
+                handleHboxCancel();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText("Order updated successfully");
@@ -187,5 +194,39 @@ public class CheckOrders {
     @FXML
     private void handleCloseVbox() {
         vbTextFields.setVisible(false);
+    }
+
+    @FXML
+    private void handleHboxCancel() {
+        hbButtons.setVisible(false);
+    }
+
+    @FXML
+    private void handleCancelOrder() {
+        if (selectedOrder != null) {
+            try {
+                Connection connection = DatabaseConnection.getConnection();
+                String sql = "UPDATE orders SET status = ? WHERE id = ?";
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setString(1, "canceled");
+                    statement.setInt(2, (int) selectedOrder[0]);
+                    statement.executeUpdate();
+                }
+                connection.close();
+                orders.clear();
+                getData();
+                handleCloseVbox();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText("Order canceled successfully");
+                alert.showAndWait();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error while canceling order");
+                alert.showAndWait();
+            }
+        }
     }
 }
