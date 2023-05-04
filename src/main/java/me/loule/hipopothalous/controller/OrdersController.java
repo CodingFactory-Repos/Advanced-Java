@@ -3,11 +3,11 @@ package me.loule.hipopothalous.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 class OrderDish {
@@ -70,6 +70,10 @@ public class OrdersController {
     Button btnConfirmOrder;
     @FXML
     Label lblTotalPrice;
+    @FXML
+    TextField tfTableNumber;
+    @FXML
+    TextField tfPersonNumber;
     ArrayList<OrderDish> orderDishes = new ArrayList<>();
     List<OrderDish> dishes = new ArrayList<>();
 
@@ -84,7 +88,7 @@ public class OrdersController {
                     dishes.add(new OrderDish(rs.getString("name"), 1, rs.getDouble("price")));
                 }
 
-                dishesPagination.setPageCount(dishes.size() / 10);
+                dishesPagination.setPageCount((int) Math.ceil(dishes.size() * 1.0 / 10));
                 dishesPagination.setPageFactory(param -> {
                     GridPane gridPane = new GridPane();
                     gridPane.setHgap(10);
@@ -92,12 +96,24 @@ public class OrdersController {
 
                     for (int i = 0; i < dishes.size(); i++) {
                         if (param * 10 + i < dishes.size()) {
-                            Button btn = new Button(dishes.get(param * 10 + i).getName());
-                            btn.setPrefWidth(100);
-                            btn.setPrefHeight(100);
+                            VBox vBox = new VBox();
+                            vBox.setSpacing(10);
+                            vBox.setPrefWidth(150);
+                            vBox.setPrefHeight(100);
+                            vBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 10px;");
+                            Label lblName = new Label(dishes.get(param * 10 + i).getName());
+                            Label lblPrice = new Label(dishes.get(param * 10 + i).getPrice() + "€");
+                            vBox.getChildren().addAll(lblName, lblPrice);
+                            lblName.prefWidthProperty().bind(vBox.widthProperty());
+                            lblName.prefHeightProperty().bind(vBox.heightProperty());
+                            lblName.setStyle("-fx-alignment: center;");
+                            lblPrice.prefWidthProperty().bind(vBox.widthProperty());
+                            lblPrice.prefHeightProperty().bind(vBox.heightProperty());
+                            lblPrice.setStyle("-fx-alignment: center;");
+
                             int finalI = i;
-                            btn.setOnAction(event -> {
-                                OrderDish orderDish = new OrderDish(btn.getText(), 1,  dishes.get(param * 10 + finalI).getPrice());
+                            vBox.setOnMouseClicked(event -> {
+                                OrderDish orderDish = new OrderDish(lblName.getText(), 1, dishes.get(param * 10 + finalI).getPrice());
                                 if (orderDishes.contains(orderDish)) {
                                     orderDishes.get(orderDishes.indexOf(orderDish)).incrementQuantity();
                                 } else {
@@ -106,11 +122,11 @@ public class OrdersController {
                                 lvOrder.getItems().clear();
                                 lvOrder.getItems().addAll(orderDishes);
                                 String price = String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum());
-                                lblTotalPrice.setText("Total: " + price + "€");
+                                lblTotalPrice.setText("Total: %s€".formatted(price));
 
 
                             });
-                            gridPane.add(btn, i % 5, i / 5);
+                            gridPane.add(vBox, i % 5, i / 5);
                         }
                     }
                     return gridPane;
@@ -141,43 +157,63 @@ public class OrdersController {
 
 
     public void addOrder() {
-        try {
+        if (tfPersonNumber.getText().equals("") || tfTableNumber.getText().equals("") || orderDishes.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error adding order");
+            alert.setHeaderText("Error adding order");
+            alert.setContentText("Please fill in all the fields");
+            alert.showAndWait();
+        } else {
             Connection connection = DatabaseConnection.getConnection();
-            try (Statement statement = connection.createStatement()) {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            try {
                 double price = 0.0;
-                for (OrderDish orderDish : orderDishes) {
-                    ResultSet rs = statement.executeQuery("SELECT price FROM dishes WHERE name = '" + orderDish.getName() + "'");
-                    rs.next();
-                    price += rs.getDouble(1) * orderDish.getQuantity();
-                }
+                try (Statement statement = connection.createStatement()) {
+                    for (OrderDish orderDish : orderDishes) {
+                        ResultSet rs = statement.executeQuery("SELECT price FROM dishes WHERE name = '" + orderDish.getName() + "'");
+                        rs.next();
+                        price += rs.getDouble(1) * orderDish.getQuantity();
+                    }
 
-                String sql = "INSERT INTO orders (status, price,table_number, persons_per_table,date) VALUES ('ordered', " + Math.round(price * 100.0) / 100.0 + ", 1, 1, " + "'" + new Timestamp(Calendar.getInstance().getTimeInMillis()) + "'" + ")";
-                statement.executeUpdate(sql);
-                ResultSet rs = statement.executeQuery("SELECT MAX(id) FROM orders");
-                rs.next();
-                int orderId = rs.getInt(1);
-                for (OrderDish orderDish : orderDishes) {
-                    sql = "INSERT INTO order_dishes (order_id, dish_id, quantity) VALUES (" + orderId + ", (SELECT dishes_id FROM dishes WHERE name = '" + orderDish.getName() + "'), " + orderDish.getQuantity() + ")";
-                    statement.executeUpdate(sql);
+                    String sql = "INSERT INTO orders (status, price,table_number, persons_per_table,date) VALUES (?, ?, ?, ?, ?)";
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                        preparedStatement.setString(1, "pending");
+                        preparedStatement.setDouble(2, Math.round(price * 100.0) / 100.0);
+                        preparedStatement.setInt(3, Integer.parseInt(tfTableNumber.getText()));
+                        preparedStatement.setInt(4, Integer.parseInt(tfPersonNumber.getText()));
+                        preparedStatement.setTimestamp(5, timestamp);
+                        preparedStatement.executeUpdate();
+                    }
+
+                    ResultSet rs = statement.executeQuery("SELECT MAX(id) FROM orders");
+                    rs.next();
+
+                    int orderId = rs.getInt(1);
+                    for (OrderDish orderDish : orderDishes) {
+                        sql = "INSERT INTO order_dishes (order_id, dish_id, quantity) VALUES (" + orderId + ", (SELECT dishes_id FROM dishes WHERE name = '" + orderDish.getName() + "'), " + orderDish.getQuantity() + ")";
+                        statement.executeUpdate(sql);
+                    }
                 }
 
                 orderDishes.clear();
                 lvOrder.getItems().clear();
                 lblTotalPrice.setText("Total: 0€");
+                tfPersonNumber.setText("");
+                tfTableNumber.setText("");
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Order added");
                 alert.setHeaderText("Order added");
                 alert.setContentText("Order added successfully");
                 alert.showAndWait();
-            }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error");
-            alert.setContentText("Error while adding order");
-            alert.showAndWait();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error");
+                alert.setContentText("Error while adding order");
+                alert.showAndWait();
+            }
         }
     }
 }
