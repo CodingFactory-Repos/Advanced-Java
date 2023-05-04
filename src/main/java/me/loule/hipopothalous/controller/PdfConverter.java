@@ -21,7 +21,7 @@ public class PdfConverter {
     public static void createPdf() throws FileNotFoundException {
         try {
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\lucas\\OneDrive\\Bureau\\PDF\\test.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream("Accounting.pdf"));
             document.open();
 
             //Create a table in the pdf
@@ -29,6 +29,8 @@ public class PdfConverter {
             table.addCell("Type");
             table.addCell("Money");
             table.addCell("Date");
+
+            //Get all the accounting and sort them by date
             List<Accounting> accounting = Accounting.getAllAccounting();
             accounting.stream().sorted((o1, o2) -> o2.getDate().compareTo(o1.getDate())).forEach(accounting1 -> {
                 table.addCell(accounting1.getType());
@@ -39,6 +41,7 @@ public class PdfConverter {
                 table.addCell(accounting1.getDate().toString());
             });
 
+            //Add the table to the document and close it
             document.add(table);
             document.close();
 

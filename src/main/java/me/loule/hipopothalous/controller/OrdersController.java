@@ -183,7 +183,7 @@ public class OrdersController {
                         preparedStatement.setInt(3, Integer.parseInt(tfTableNumber.getText()));
                         preparedStatement.setInt(4, Integer.parseInt(tfPersonNumber.getText()));
                         preparedStatement.setTimestamp(5, timestamp);
-                        Accounting.createAccounting("addDish", Math.round(price * 100.0) / 100.0, timestamp);
+                        Accounting.createAccounting("Gain", Math.round(price * 100.0) / 100.0, timestamp);
                         preparedStatement.executeUpdate();
                     }
 
