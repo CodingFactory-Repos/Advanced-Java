@@ -10,7 +10,8 @@
             <HBox alignment="CENTER" prefHeight="25.0" prefWidth="600.0">
                <children>
                   <Label text="Liste des plats" />
-                  <Button fx:id="addDishesButton" mnemonicParsing="false" onMouseClicked="#onAddDishesButtonClick" text="Button" />
+                  <Button fx:id="addDishesButton" mnemonicParsing="false" onMouseClicked="#onAddDishesButtonClick" text="Ajouter plats" />
+                  <Button mnemonicParsing="false" text="Créer PDF" onMouseClicked="#createPdf" />
                </children>
             </HBox>
             <ScrollPane fx:id="listScrollPane" pannable="true" prefHeight="200.0" prefWidth="200.0">

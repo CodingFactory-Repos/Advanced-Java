@@ -27,7 +27,6 @@ public class HelloController {
         welcomeVBox.setVisible(true);
     }
 
-    //When whe click on dishesButton, the dishesPanel will be visible
     @FXML
     protected void onDishesButtonClick() {
         welcomeVBox.setVisible(false);

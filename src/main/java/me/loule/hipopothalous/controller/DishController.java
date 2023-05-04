@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.Dishes;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
@@ -62,7 +63,10 @@ public class DishController implements Initializable {
         pictureTextField.setText("");
         listScrollPane.setVisible(!listScrollPane.isVisible());
     }
-
+    @FXML
+    protected void createPdf() throws FileNotFoundException {
+        PdfConverter.createPdf(5000.0, 6000.0);
+    }
     @FXML
     protected void addDishes() {
         String dishName = nameTextField.getText();
