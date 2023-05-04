@@ -22,7 +22,6 @@ public class HelloController {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
 
-    //When whe click on dishesButton, the dishesPanel will be visible
     @FXML
     protected void onDishesButtonClick() {
         dishesPanel.setVisible(true);
