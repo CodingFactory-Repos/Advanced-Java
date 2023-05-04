@@ -6,6 +6,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.Accounting;
 import me.loule.hipopothalous.model.DatabaseConnection;
+import me.loule.hipopothalous.model.Orders;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -111,16 +112,16 @@ public class OrdersController {
                             vBox.setSpacing(10);
                             vBox.setPrefWidth(150);
                             vBox.setPrefHeight(100);
-                            vBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 10px;");
+                            vBox.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 10px;-fx-background-color: rgba(0,0,0,0.2)");
                             Label lblName = new Label(dishes.get(param * 10 + i).getName());
                             Label lblPrice = new Label(dishes.get(param * 10 + i).getPrice() + "€");
                             vBox.getChildren().addAll(lblName, lblPrice);
                             lblName.prefWidthProperty().bind(vBox.widthProperty());
                             lblName.prefHeightProperty().bind(vBox.heightProperty());
-                            lblName.setStyle("-fx-alignment: center;");
+                            lblName.setStyle("-fx-alignment: center;-fx-font-weight: bold");
                             lblPrice.prefWidthProperty().bind(vBox.widthProperty());
                             lblPrice.prefHeightProperty().bind(vBox.heightProperty());
-                            lblPrice.setStyle("-fx-alignment: center;");
+                            lblPrice.setStyle("-fx-alignment: center; -fx-font-size: 20px; -fx-font-weight: bold");
 
                             int finalI = i;
                             vBox.setOnMouseClicked(event -> {
@@ -146,7 +147,6 @@ public class OrdersController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
         // on listview item press decrement quantity
         lvOrder.setOnMouseClicked(event1 -> {

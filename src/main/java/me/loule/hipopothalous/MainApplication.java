@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import me.loule.hipopothalous.controller.CheckOrders;
 import me.loule.hipopothalous.model.DatabaseConnection;
 
 import java.io.IOException;
@@ -23,7 +24,8 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         initialize();
-
+//        CheckOrders checkOrders = new CheckOrders();
+//        checkOrders.initialize();
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
