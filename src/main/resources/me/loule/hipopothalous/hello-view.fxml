@@ -1,21 +1,45 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.HelloController">
-   <children>
-      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
-         <children>
-            <Button fx:id="btnOrders" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMousePressed="#showOrders" prefHeight="45.0" prefWidth="100.0" text="Orders" textAlignment="CENTER" />
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="B2" textAlignment="CENTER" />
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="B3" textAlignment="CENTER" />
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="B4" textAlignment="CENTER" />
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="B5" textAlignment="CENTER" />
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="B6" textAlignment="CENTER" />
-         </children>
-      </HBox>
-      <fx:include fx:id="ordersPanel" source="orders2.fxml" />
-   </children>
-</VBox>
+<?import javafx.geometry.Insets?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.HelloController">
+    <VBox prefHeight="200.0" prefWidth="100.0">
+        <children>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                  prefWidth="600.0" spacing="10">
+                <children>
+                    <Button fx:id="welcomeButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                            onMouseClicked="#onWelcomeButtonClick" prefHeight="45.0" prefWidth="100.0" text="Accueil"
+                            textAlignment="CENTER"/>
+                    <Button fx:id="dishesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                            onMouseClicked="#onDishesButtonClick" prefHeight="45.0" prefWidth="100.0" text="Plats"
+                            textAlignment="CENTER"/>
+                    <Button fx:id="tablesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+                            onMouseClicked="#onTablesButtonClick" prefHeight="45.0" prefWidth="100.0" text="Tables"
+                            textAlignment="CENTER"/>
+                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0"
+                            onMousePressed="#onOrdersButtonClick" prefWidth="100.0" text="Commandes" textAlignment="CENTER"/>
+                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0"
+                            prefWidth="100.0" text="Statistiques" textAlignment="CENTER"/>
+                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0"
+                            prefWidth="100.0" text="Paramètres" textAlignment="CENTER"/>
+                </children>
+            </HBox>
+            <StackPane prefHeight="100.0" prefWidth="200.0">
+                <children>
+                    <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER"/>
+                    <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER"/>
+                    <fx:include fx:id="ordersPanel" source="orders2.fxml" visible="false" StackPane.alignment="CENTER"/>
+                    <VBox alignment="CENTER" fx:id="welcomeVBox">
+                        <Label styleClass="title" text="Bienvenue chez MonRestaurant"/>
+                        <Label text="Ce logiciel permet la gestion des tables et des plats"/>
+                    </VBox>
+                </children>
+                <StackPane.margin>
+                    <Insets top="-50"/>
+                </StackPane.margin>
+            </StackPane>
+        </children>
+    </VBox>
+</AnchorPane>
