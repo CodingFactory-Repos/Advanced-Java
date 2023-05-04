@@ -71,7 +71,7 @@ public class OrdersController {
     @FXML
     Label lblTotalPrice;
     @FXML
-    TextField tfTableNumber;
+    ChoiceBox<String> tfTableNumber;
     @FXML
     TextField tfPersonNumber;
     ArrayList<OrderDish> orderDishes = new ArrayList<>();
@@ -94,70 +94,57 @@ public class OrdersController {
                     gridPane.setHgap(10);
                     gridPane.setVgap(10);
 
-                    for (int i = 0; i < dishes.size(); i++) {
-                        if (param * 10 + i < dishes.size()) {
-                            VBox vBox = new VBox();
-                            vBox.setSpacing(10);
-                            vBox.setPrefWidth(150);
-                            vBox.setPrefHeight(100);
-                            vBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 10px;");
-                            Label lblName = new Label(dishes.get(param * 10 + i).getName());
-                            Label lblPrice = new Label(dishes.get(param * 10 + i).getPrice() + "€");
-                            vBox.getChildren().addAll(lblName, lblPrice);
-                            lblName.prefWidthProperty().bind(vBox.widthProperty());
-                            lblName.prefHeightProperty().bind(vBox.heightProperty());
-                            lblName.setStyle("-fx-alignment: center;");
-                            lblPrice.prefWidthProperty().bind(vBox.widthProperty());
-                            lblPrice.prefHeightProperty().bind(vBox.heightProperty());
-                            lblPrice.setStyle("-fx-alignment: center;");
+                    dishes.stream()
+                            .skip(param * 10)
+                            .limit(10)
+                            .forEach(dish -> {
+                                VBox vBox = new VBox();
+                                vBox.setSpacing(10);
+                                vBox.setPrefWidth(150);
+                                vBox.setPrefHeight(100);
+                                vBox.setStyle("-fx-background-color: #ffffff; -fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-padding: 10px;");
+                                Label lblName = new Label(dish.getName());
+                                Label lblPrice = new Label(dish.getPrice() + "€");
+                                vBox.getChildren().addAll(lblName, lblPrice);
+                                lblName.prefWidthProperty().bind(vBox.widthProperty());
+                                lblName.prefHeightProperty().bind(vBox.heightProperty());
+                                lblName.setStyle("-fx-alignment: center;");
+                                lblPrice.prefWidthProperty().bind(vBox.widthProperty());
+                                lblPrice.prefHeightProperty().bind(vBox.heightProperty());
+                                lblPrice.setStyle("-fx-alignment: center;");
 
-                            int finalI = i;
-                            vBox.setOnMouseClicked(event -> {
-                                OrderDish orderDish = new OrderDish(lblName.getText(), 1, dishes.get(param * 10 + finalI).getPrice());
-                                if (orderDishes.contains(orderDish)) {
-                                    orderDishes.get(orderDishes.indexOf(orderDish)).incrementQuantity();
-                                } else {
-                                    orderDishes.add(orderDish);
-                                }
-                                lvOrder.getItems().clear();
-                                lvOrder.getItems().addAll(orderDishes);
-                                String price = String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum());
-                                lblTotalPrice.setText("Total: %s€".formatted(price));
+                                vBox.setOnMouseClicked(event -> {
+                                    OrderDish orderDish = new OrderDish(lblName.getText(), 1, dish.getPrice());
+                                    if (orderDishes.contains(orderDish)) {
+                                        orderDishes.get(orderDishes.indexOf(orderDish)).incrementQuantity();
+                                    } else {
+                                        orderDishes.add(orderDish);
+                                    }
+                                    lvOrder.getItems().clear();
+                                    lvOrder.getItems().addAll(orderDishes);
+                                    String price = String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum());
+                                    lblTotalPrice.setText("Total: %s€".formatted(price));
+                                });
 
-
+                                gridPane.add(vBox, dishes.indexOf(dish) % 5, dishes.indexOf(dish) / 5);
                             });
-                            gridPane.add(vBox, i % 5, i / 5);
-                        }
-                    }
                     return gridPane;
                 });
+
+                // Fetch all table numbers
+                String tableSql = "SELECT * FROM tables";
+                ResultSet tableRs = statement.executeQuery(tableSql);
+                while (tableRs.next()) {
+                    tfTableNumber.getItems().add(tableRs.getString("location"));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-        // on listview item press decrement quantity
-        lvOrder.setOnMouseClicked(event1 -> {
-            if (event1.getClickCount() == 2) {
-                OrderDish orderDish1 = lvOrder.getSelectionModel().getSelectedItem();
-                if (orderDish1.getQuantity() > 1) {
-                    orderDish1.decrementQuantity();
-                    lblTotalPrice.setText("Total: " + String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum()) + "€");
-                } else {
-                    orderDishes.remove(orderDish1);
-                    lblTotalPrice.setText("Total: " + String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum()) + "€");
-                }
-                lvOrder.getItems().clear();
-                lvOrder.getItems().addAll(orderDishes);
-            }
-        });
-
     }
 
-
     public void addOrder() {
-        if (tfPersonNumber.getText().equals("") || tfTableNumber.getText().equals("") || orderDishes.isEmpty()) {
+        if (tfPersonNumber.getText().equals("") || orderDishes.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error adding order");
             alert.setHeaderText("Error adding order");
@@ -179,7 +166,7 @@ public class OrdersController {
                     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                         preparedStatement.setString(1, "pending");
                         preparedStatement.setDouble(2, Math.round(price * 100.0) / 100.0);
-                        preparedStatement.setInt(3, Integer.parseInt(tfTableNumber.getText()));
+                        preparedStatement.setInt(3, Integer.parseInt(tfTableNumber.getValue()));
                         preparedStatement.setInt(4, Integer.parseInt(tfPersonNumber.getText()));
                         preparedStatement.setTimestamp(5, timestamp);
                         preparedStatement.executeUpdate();
@@ -199,7 +186,6 @@ public class OrdersController {
                 lvOrder.getItems().clear();
                 lblTotalPrice.setText("Total: 0€");
                 tfPersonNumber.setText("");
-                tfTableNumber.setText("");
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Order added");
                 alert.setHeaderText("Order added");
