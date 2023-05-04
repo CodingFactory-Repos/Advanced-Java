@@ -8,14 +8,15 @@ import me.loule.hipopothalous.model.DatabaseConnection;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.logging.Logger;
 
 public class MainApplication extends Application {
     public void initialize() {
         Connection connection = DatabaseConnection.getConnection();
         if (connection != null) {
-            System.out.println("Connected to database!");
+            Logger.getLogger("Connected to database!");
         } else {
-            System.out.println("Failed to connect to database!");
+            Logger.getLogger("Failed to connect to database!");
         }
     }
 
