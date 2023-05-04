@@ -11,9 +11,9 @@ import java.util.Calendar;
 import java.util.List;
 
 class OrderDish {
-    private String name;
+    private final String name;
     private int quantity;
-    private double price;
+    private final double price;
 
 
     public OrderDish(String name, int quantity, double price) {
@@ -105,7 +105,9 @@ public class OrdersController {
                                 }
                                 lvOrder.getItems().clear();
                                 lvOrder.getItems().addAll(orderDishes);
-                                lblTotalPrice.setText("Total: " + orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum() + "€");
+                                String price = String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum());
+                                lblTotalPrice.setText("Total: " + price + "€");
+
 
                             });
                             gridPane.add(btn, i % 5, i / 5);
@@ -125,8 +127,10 @@ public class OrdersController {
                 OrderDish orderDish1 = lvOrder.getSelectionModel().getSelectedItem();
                 if (orderDish1.getQuantity() > 1) {
                     orderDish1.decrementQuantity();
+                    lblTotalPrice.setText("Total: " + String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum()) + "€");
                 } else {
                     orderDishes.remove(orderDish1);
+                    lblTotalPrice.setText("Total: " + String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum()) + "€");
                 }
                 lvOrder.getItems().clear();
                 lvOrder.getItems().addAll(orderDishes);
@@ -140,14 +144,14 @@ public class OrdersController {
         try {
             Connection connection = DatabaseConnection.getConnection();
             try (Statement statement = connection.createStatement()) {
-                double price = 0;
+                double price = 0.0;
                 for (OrderDish orderDish : orderDishes) {
                     ResultSet rs = statement.executeQuery("SELECT price FROM dishes WHERE name = '" + orderDish.getName() + "'");
                     rs.next();
                     price += rs.getDouble(1) * orderDish.getQuantity();
                 }
 
-                String sql = "INSERT INTO orders (status, price,table_number, persons_per_table,date) VALUES ('pending', " + price + ", 1, 1, " + "'" + new Timestamp(Calendar.getInstance().getTimeInMillis()) + "'" + ")";
+                String sql = "INSERT INTO orders (status, price,table_number, persons_per_table,date) VALUES ('ordered', " + Math.round(price * 100.0) / 100.0 + ", 1, 1, " + "'" + new Timestamp(Calendar.getInstance().getTimeInMillis()) + "'" + ")";
                 statement.executeUpdate(sql);
                 ResultSet rs = statement.executeQuery("SELECT MAX(id) FROM orders");
                 rs.next();
@@ -169,6 +173,11 @@ public class OrdersController {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Error while adding order");
+            alert.showAndWait();
         }
     }
 }
