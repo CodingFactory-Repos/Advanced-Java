@@ -3,9 +3,6 @@ package me.loule.hipopothalous.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.DishesModel;
@@ -18,19 +15,27 @@ import java.util.ResourceBundle;
 
 public class Dish implements Initializable {
 
-    public Button addDishesButton;
-
-    public List<DishesModel> dishes;
-    public TextField nameTextField;
-    public TextField descriptionTextField;
-    public TextField priceTextField;
-    public TextField pictureTextField;
-    public Button validateButton;
-    public HBox addDishesHBox;
     @FXML
-    public VBox listVBox;
-    public DishComponent dishComponent;
-    public ScrollPane listScrollPane;
+    private Button addDishesButton;
+
+    private List<DishesModel> dishes;
+    @FXML
+    private TextField nameTextField;
+    @FXML
+    private TextField descriptionTextField;
+    @FXML
+    private TextField priceTextField;
+    @FXML
+    private TextField pictureTextField;
+    @FXML
+    private Button validateButton;
+    @FXML
+    private HBox addDishesHBox;
+    @FXML
+    private VBox listVBox;
+    private DishComponent dishComponent;
+    @FXML
+    private ScrollPane listScrollPane;
 
 
     @Override
@@ -40,7 +45,6 @@ public class Dish implements Initializable {
         dishes.stream()
                 .sorted(Comparator.comparing(DishesModel::getName))
                 .forEach(dish -> {
-                    System.out.println(dish.getName());
                     dishComponent = new DishComponent(dish.getImage(), dish.getName(), dish.getPrice(), dish.getDescription());
                     listVBox.getChildren().add(dishComponent);
                 });
