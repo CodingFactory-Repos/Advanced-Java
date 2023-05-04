@@ -36,14 +36,6 @@ public class CheckOrders {
     @FXML
     MenuButton mbOrderStatus;
     @FXML
-    TextField tfOrderTable;
-    @FXML
-    TextField tfOrderPersons;
-    @FXML
-    TextField tfOrderDate;
-    @FXML
-    TextField tfOrderTotal;
-    @FXML
     Button btnConfirmUpdate;
     @FXML
     Button btnCloseVbox;
@@ -72,7 +64,7 @@ public class CheckOrders {
         orderPersons.setCellValueFactory(cellData -> cellData.getValue().personsPerTableProperty().asObject());
         orderDate.setCellValueFactory(cellData -> cellData.getValue().dateProperty());
         orderTotalPrice.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
-        ordersTableView.setItems(orders);
+        ordersTableView.setItems(orders.filtered(order -> order.getStatus().equals("ordered")));
 
         orderStatus.setCellFactory(CheckOrders::capitalize);
         getData();
@@ -85,7 +77,7 @@ public class CheckOrders {
             Connection connection = DatabaseConnection.getConnection();
             ResultSet rs;
             try (Statement statement = connection.createStatement()) {
-                String sql = "SELECT * FROM orders WHERE status = 'ordered' ORDER BY date DESC";
+                String sql = "SELECT * FROM orders ORDER BY date DESC";
                 rs = statement.executeQuery(sql);
                 while (rs.next()) {
                     orders.add(new Orders(
@@ -96,7 +88,6 @@ public class CheckOrders {
                             rs.getInt("table_number"),
                             rs.getTimestamp("date")
                     ));
-
                 }
             }
 
@@ -119,20 +110,13 @@ public class CheckOrders {
                             selectedOrder = new Object[]{
                                     rs.getInt("id"),
                                     rs.getString("status"),
-                                    rs.getDouble("price"),
-                                    rs.getInt("persons_per_table"),
-                                    rs.getInt("table_number"),
-                                    rs.getTimestamp("date")
                             };
+                            newStatusValue = selectedOrder[1].toString();
                         }
                     }
 
                     tfOrderId.setText(String.valueOf(selectedOrder[0]));
-                    mbOrderStatus.setText(String.valueOf(selectedOrder[1].toString().substring(0, 1).toUpperCase() + selectedOrder[1].toString().substring(1)));
-                    tfOrderTotal.setText(String.valueOf(selectedOrder[2]));
-                    tfOrderPersons.setText(String.valueOf(selectedOrder[3]));
-                    tfOrderTable.setText(String.valueOf(selectedOrder[4]));
-                    tfOrderDate.setText(String.valueOf(selectedOrder[5]));
+                    mbOrderStatus.setText(selectedOrder[1].toString().substring(0, 1).toUpperCase() + selectedOrder[1].toString().substring(1));
                     vbTextFields.setVisible(true);
                     hbButtons.setVisible(true);
                 } catch (SQLException e) {
@@ -148,16 +132,14 @@ public class CheckOrders {
         mbOrderStatus.getItems().forEach(item -> item.setOnAction(event -> {
             mbOrderStatus.setText(item.getText());
             String status = item.getText();
-            if (status.equals("Pending"))
-                newStatusValue = "pending";
-            else if (status.equals("Paid"))
-                newStatusValue = "paid";
-            else if (status.equals("Delivered"))
-                newStatusValue = "delivered";
-            else if (status.equals("Cooking"))
-                newStatusValue = "cooking";
-            else if (status.equals("Canceled"))
-                newStatusValue = "canceled";
+            switch (status) {
+                case "Prepared" -> newStatusValue = "prepared";
+                case "Paid" -> newStatusValue = "paid";
+                case "Delivered" -> newStatusValue = "delivered";
+                case "Cooking" -> newStatusValue = "cooking";
+                case "Canceled" -> newStatusValue = "canceled";
+                default -> newStatusValue = "ordered";
+            }
         }));
     }
 
@@ -169,7 +151,7 @@ public class CheckOrders {
                 String sql = "UPDATE orders SET status = ? WHERE id = ?";
                 try (PreparedStatement statement = connection.prepareStatement(sql)) {
                     statement.setString(1, newStatusValue);
-                    statement.setInt(2, (int) selectedOrder[0]);
+                    statement.setInt(2, Integer.parseInt(tfOrderId.getText()));
                     statement.executeUpdate();
                 }
                 connection.close();
@@ -177,10 +159,10 @@ public class CheckOrders {
                 getData();
                 handleCloseVbox();
                 handleHboxCancel();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success");
-                alert.setHeaderText("Order updated successfully");
-                alert.showAndWait();
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setTitle("Success");
+//                alert.setHeaderText("Order updated successfully");
+//                alert.showAndWait();
             } catch (SQLException e) {
                 e.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -46,10 +46,6 @@
                              <rowConstraints>
                                <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                                <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                               <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                                 <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                                 <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                                 <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                              </rowConstraints>
                               <children>
                                  <Label text="Order ID" />
@@ -58,18 +54,10 @@
                                        <items>
                                            <MenuItem mnemonicParsing="false" text="Paid" />
                                            <MenuItem mnemonicParsing="false" text="Delivered" />
-                                           <MenuItem mnemonicParsing="false" text="Pending" />
+                                           <MenuItem mnemonicParsing="false" text="Prepared" />
                                            <MenuItem mnemonicParsing="false" text="Cooking" />
                                        </items>
                                    </MenuButton>
-                                   <TextField fx:id="tfOrderTable" promptText="Table" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                 <Label text="Table" GridPane.rowIndex="2" />
-                                 <Label text="Persons" GridPane.rowIndex="3" />
-                                   <TextField fx:id="tfOrderPersons" promptText="Persons Number" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                 <Label text="Date" GridPane.rowIndex="4" />
-                                   <TextField fx:id="tfOrderDate" editable="false" promptText="Date" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                 <Label text="Total" GridPane.rowIndex="5" />
-                                   <TextField fx:id="tfOrderTotal" editable="false" promptText="Total Price" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                  <Label text="Status" GridPane.rowIndex="1" />
                               </children>
                            </GridPane>
@@ -84,7 +72,7 @@
             </HBox>
             <HBox fx:id="hbButtons" alignment="CENTER" prefHeight="50.0" visible="false">
                <children>
-                  <Button fx:id="btnCancelOrder" alignment="CENTER" mnemonicParsing="false" text="Cancel Order" onMousePressed="#handleCancelOrder" />
+                  <Button fx:id="btnCancelOrder" alignment="CENTER" mnemonicParsing="false" onMousePressed="#handleCancelOrder" text="Cancel Order" />
                </children>
             </HBox>
          </children>
