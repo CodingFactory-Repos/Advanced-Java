@@ -42,6 +42,12 @@ public class DishController implements Initializable {
     private ScrollPane listScrollPane;
 
 
+    /**
+     * @param url            The location used to resolve relative paths for the root object, or
+     *                       {@code null} if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or {@code null} if
+     *                       the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         dishes = Dishes.getAllDish();
@@ -54,6 +60,10 @@ public class DishController implements Initializable {
                 });
     }
 
+    /**
+     * This function is used to show or hide the anchorPane
+     * of the creation of dishes
+     */
     @FXML
     protected void onAddDishesButtonClick() {
         addDishesHBox.setVisible(!addDishesHBox.isVisible());
@@ -63,10 +73,19 @@ public class DishController implements Initializable {
         pictureTextField.setText("");
         listScrollPane.setVisible(!listScrollPane.isVisible());
     }
+
+    /**
+     * @throws FileNotFoundException
+     * This function is used to call the "createPdf" function
+     */
     @FXML
     protected void createPdf() throws FileNotFoundException {
         PdfConverter.createPdf();
     }
+
+    /**
+     * This function put the data entered by the user and put it in the database
+     */
     @FXML
     protected void addDishes() {
         String dishName = nameTextField.getText();

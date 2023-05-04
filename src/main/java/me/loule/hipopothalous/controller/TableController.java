@@ -33,6 +33,10 @@ public class TableController {
 
     private ObservableList<TableModel> tables = FXCollections.observableArrayList();
 
+    /**
+     * This function is called when the application starts
+     * It will initialize the table view
+     */
     public void initialize() {
         tableSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty().asObject());
         tableLocation.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
@@ -40,6 +44,10 @@ public class TableController {
         loadTablesFromDatabase();
     }
 
+    /**
+     * This function is used to load the tables from the database
+     * It will be called when the application starts
+     */
     private void loadTablesFromDatabase() {
         String query = "SELECT * FROM tables";
 
@@ -54,6 +62,13 @@ public class TableController {
         }
     }
 
+    /**
+     * @param resultSet
+     * @return
+     * @throws SQLException
+     * This function is used to convert a ResultSet to a list of TableModel
+     * It will be used in loadTablesFromDatabase()
+     */
     private List<TableModel> resultSetToTableList(ResultSet resultSet) throws SQLException {
         return Stream.generate(() -> {
             try {
@@ -64,6 +79,11 @@ public class TableController {
         }).takeWhile(Objects::nonNull).collect(Collectors.toList());
     }
 
+    /**
+     * @param event
+     * This function is called when the user clicks on the "Ajouter" button
+     * It will add a table to the database and to the table view
+     */
     @FXML
     private void addTable(ActionEvent event) {
         int size = Integer.parseInt(tableSizeInput.getText());
@@ -74,6 +94,11 @@ public class TableController {
         tableLocationInput.clear();
     }
 
+    /**
+     * @param size
+     * @param location
+     * This function is used to insert a table in the database
+     */
     private void insertTable(int size, String location) {
         String query = "INSERT INTO tables (size, location) VALUES (?, ?)";
 
@@ -92,6 +117,11 @@ public class TableController {
         // Implémentez la logique pour assigner une table à un client en enregistrant sa commande.
     }
 
+    /**
+     * @param event
+     * This function is called when the user clicks on the "Libérer" button
+     * It will remove a table from the database and from the table view
+     */
     @FXML
     private void releaseTable(ActionEvent event) {
         TableModel selectedTable = availableTables.getSelectionModel().getSelectedItem();

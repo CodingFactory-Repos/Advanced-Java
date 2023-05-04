@@ -32,6 +32,11 @@ class OrderDish {
     }
 
 
+    /**
+     * @param obj
+     * @return
+     * This function is used to compare two OrderDish objects and check if they are the same
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof OrderDish orderDish) {
@@ -78,6 +83,11 @@ public class OrdersController {
     ArrayList<OrderDish> orderDishes = new ArrayList<>();
     List<OrderDish> dishes = new ArrayList<>();
 
+    /**
+     * This function is called when the view is initialized
+     * It will load the dishes from the database and display them in the pagination
+     * It will also initialize the order list view
+     */
     public void initialize() {
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -157,6 +167,10 @@ public class OrdersController {
     }
 
 
+    /**
+     * This function is called when the user clicks on the confirm order button
+     * It will check if all the fields are filled in and if they are it will add the order to the database
+     */
     public void addOrder() {
         if (tfPersonNumber.getText().equals("") || tfTableNumber.getText().equals("") || orderDishes.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

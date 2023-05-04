@@ -18,6 +18,12 @@ public class PdfConverter {
         throw new IllegalStateException("Utility class");
     }
 
+    /**
+     *
+     * @throws FileNotFoundException
+     * This function is used to create a pdf with all the accounting
+     * It will create a table with all the accounting and sort them by date
+     */
     public static void createPdf() throws FileNotFoundException {
         try {
             Document document = new Document();

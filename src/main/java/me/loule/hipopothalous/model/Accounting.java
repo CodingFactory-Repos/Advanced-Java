@@ -20,6 +20,12 @@ public class Accounting {
         this.date = date;
     }
 
+    /**
+     * @param type
+     * @param money
+     * @param date
+     * This function is used to create a new accounting entry in the database
+     */
     public static void createAccounting(String type, Double money, Timestamp date) {
         String sql = "INSERT INTO accounting (type, money, date) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -32,6 +38,11 @@ public class Accounting {
         }
     }
 
+    /**
+     * @return
+     * This function is used to get all the accounting entries from the database
+     * It will return a list of Accounting objects
+     */
     public static List<Accounting> getAllAccounting(){
         String sql = "SELECT * FROM accounting";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

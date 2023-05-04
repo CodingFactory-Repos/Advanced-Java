@@ -22,6 +22,13 @@ public class Dishes {
         this.image = image;
     }
 
+    /**
+     * @param name
+     * @param description
+     * @param price
+     * @param image
+     * This function is used to create a new dish in the database
+     */
     public static void addDish(String name, String description, Double price, String image) {
         String sql = "INSERT INTO dishes (name, description, price, image) VALUES (?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -35,6 +42,11 @@ public class Dishes {
         }
     }
 
+    /**
+     * @return
+     * This function is used to get all the dishes from the database
+     * It will return a list of Dishes objects
+     */
     public static List<Dishes> getAllDish() {
         String sql = "SELECT * FROM dishes";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
