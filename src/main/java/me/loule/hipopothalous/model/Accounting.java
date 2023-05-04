@@ -32,7 +32,7 @@ public class Accounting {
         }
     }
 
-    public List<Accounting> getAllAccounting(){
+    public static List<Accounting> getAllAccounting(){
         String sql = "SELECT * FROM accounting";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet rs = preparedStatement.executeQuery();
@@ -45,5 +45,26 @@ public class Accounting {
             Logger.getLogger(e.getMessage());
         }
         return List.of();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Double getMoney() {
+        return money;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    @Override
+    public String toString() {
+        return "Accounting{" +
+                "type='" + type + '\'' +
+                ", money=" + money +
+                ", date=" + date +
+                '}';
     }
 }

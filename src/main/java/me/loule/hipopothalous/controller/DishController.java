@@ -65,7 +65,7 @@ public class DishController implements Initializable {
     }
     @FXML
     protected void createPdf() throws FileNotFoundException {
-        PdfConverter.createPdf(5000.0, 6000.0);
+        PdfConverter.createPdf();
     }
     @FXML
     protected void addDishes() {
