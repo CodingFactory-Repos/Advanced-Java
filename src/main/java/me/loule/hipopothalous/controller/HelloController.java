@@ -1,45 +1,55 @@
 package me.loule.hipopothalous.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-
-
-public class HelloController implements Initializable {
+public class HelloController {
     @FXML
-    private Label welcomeText;
+    private VBox welcomeVBox;
 
     @FXML
-    private Label minutesLbl;
+    private Pane dishesPanel;
 
     @FXML
-    private Label secondLbl;
-
-
-    public Chronometry Chronometre;
+    private Pane tablesPanel;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private AnchorPane ordersPanel;
+
+    //When we click on the welcomeButton, the welcomeVBox will be visible
+    @FXML
+    protected void onWelcomeButtonClick() {
+        dishesPanel.setVisible(false);
+        tablesPanel.setVisible(false);
+        ordersPanel.setVisible(false);
+        welcomeVBox.setVisible(true);
+    }
+
+    //When whe click on dishesButton, the dishesPanel will be visible
+    @FXML
+    protected void onDishesButtonClick() {
+        welcomeVBox.setVisible(false);
+        tablesPanel.setVisible(false);
+        ordersPanel.setVisible(false);
+        dishesPanel.setVisible(true);
+
     }
 
     @FXML
-    public void OnClick(ActionEvent actionEvent) {
-
-
-
+    private void onOrdersButtonClick() {
+        var isVisible = ordersPanel.isVisible();
+        welcomeVBox.setVisible(false);
+        dishesPanel.setVisible(false);
+        tablesPanel.setVisible(false);
+        ordersPanel.setVisible(!isVisible);
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Chronometre = new Chronometry();
-        Chronometre.initializeChronometry(false);
-
-
+    @FXML
+    protected void onTablesButtonClick() {
+        welcomeVBox.setVisible(false);
+        dishesPanel.setVisible(false);
+        ordersPanel.setVisible(false);
+        tablesPanel.setVisible(true);
     }
 }

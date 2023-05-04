@@ -11,4 +11,6 @@ module me.loule.hipopothalous {
     exports me.loule.hipopothalous;
     exports me.loule.hipopothalous.controller;
     opens me.loule.hipopothalous.controller to javafx.fxml;
+    exports me.loule.hipopothalous.model;
+    opens me.loule.hipopothalous.model to javafx.fxml;
 }
