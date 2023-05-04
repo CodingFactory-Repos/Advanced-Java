@@ -4,11 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import me.loule.hipopothalous.model.DatabaseConnection;
+import me.loule.hipopothalous.model.TableModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,19 +19,19 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Tables {
+public class TableController {
     @FXML
-    private TableView<Table> availableTables;
+    private TableView<TableModel> availableTables;
     @FXML
-    private TableColumn<Table, Integer> tableSize;
+    private TableColumn<TableModel, Integer> tableSize;
     @FXML
-    private TableColumn<Table, String> tableLocation;
+    private TableColumn<TableModel, String> tableLocation;
     @FXML
     private TextField tableSizeInput;
     @FXML
     private TextField tableLocationInput;
 
-    private ObservableList<Table> tables = FXCollections.observableArrayList();
+    private ObservableList<TableModel> tables = FXCollections.observableArrayList();
 
     public void initialize() {
         tableSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty().asObject());
@@ -54,10 +54,10 @@ public class Tables {
         }
     }
 
-    private List<Table> resultSetToTableList(ResultSet resultSet) throws SQLException {
+    private List<TableModel> resultSetToTableList(ResultSet resultSet) throws SQLException {
         return Stream.generate(() -> {
             try {
-                return resultSet.next() ? new Table(resultSet.getInt("size"), resultSet.getString("location")) : null;
+                return resultSet.next() ? new TableModel(resultSet.getInt("size"), resultSet.getString("location")) : null;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -69,7 +69,7 @@ public class Tables {
         int size = Integer.parseInt(tableSizeInput.getText());
         String location = tableLocationInput.getText();
         insertTable(size, location);
-        tables.add(new Table(size, location));
+        tables.add(new TableModel(size, location));
         tableSizeInput.clear();
         tableLocationInput.clear();
     }
@@ -94,7 +94,7 @@ public class Tables {
 
     @FXML
     private void releaseTable(ActionEvent event) {
-        Table selectedTable = availableTables.getSelectionModel().getSelectedItem();
+        TableModel selectedTable = availableTables.getSelectionModel().getSelectedItem();
         if (selectedTable != null) {
             tables.remove(selectedTable);
         }

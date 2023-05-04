@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="me.loule.hipopothalous.controller.Tables">
+            fx:controller="me.loule.hipopothalous.controller.TableController">
     <children>
         <VBox alignment="CENTER">
             <Label text="Gestion des tables du restaurant"/>

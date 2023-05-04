@@ -1,15 +1,15 @@
-package me.loule.hipopothalous.controller;
+package me.loule.hipopothalous.model;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Table {
+public class TableModel {
     private final IntegerProperty size;
     private final StringProperty location;
 
-    public Table(int size, String location) {
+    public TableModel(int size, String location) {
         this.size = new SimpleIntegerProperty(size);
         this.location = new SimpleStringProperty(location);
     }
