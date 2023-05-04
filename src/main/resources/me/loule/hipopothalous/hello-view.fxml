@@ -21,6 +21,10 @@
             <children>
                <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER"/>
                <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER"/>
+               <VBox alignment="CENTER" fx:id="welcomePanel">
+                  <Label text="Bienvenue chez MonRestaurant"/>
+                  <Label text="Ce logiciel permet la gestion des tables et des plats"/>
+               </VBox>
             </children>
             <StackPane.margin>
                <Insets top="-50" />
