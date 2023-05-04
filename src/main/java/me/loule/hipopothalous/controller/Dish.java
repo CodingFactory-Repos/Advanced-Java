@@ -74,7 +74,7 @@ public class Dish implements Initializable {
             alert.showAndWait();
             return;
         }
-        
+
         //We check if the price is a number, if it not we show an error message
         try {
             Double.valueOf(dishPrice);

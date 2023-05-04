@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class DishesModel {
     private String name;
@@ -30,7 +31,7 @@ public class DishesModel {
             preparedStatement.setString(4, image);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(e.getMessage());
         }
     }
 
@@ -44,9 +45,9 @@ public class DishesModel {
             }
             return dishes;
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(e.getMessage());
         }
-        return null;
+        return List.of();
     }
 
     // Getters and setters
