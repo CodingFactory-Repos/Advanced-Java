@@ -2,12 +2,11 @@ package me.loule.hipopothalous.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 public class HelloController {
     @FXML
-    private Label welcomeText;
+    private AnchorPane ordersPanel;
 
     @FXML
     private Button dishesButton;
@@ -18,12 +17,14 @@ public class HelloController {
 
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
-
-    @FXML
     protected void onDishesButtonClick() {
         dishesPanel.setVisible(true);
     }
+
+    @FXML
+    private void showOrders() {
+        var isVisible = ordersPanel.isVisible();
+        ordersPanel.setVisible(!isVisible);
+    }
+
 }
