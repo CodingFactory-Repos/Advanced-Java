@@ -243,7 +243,7 @@ public class WorkersController {
                 totalHours = rs.getString("SUM(hours)");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(e.getMessage());
         }
         return totalHours;
     }
