@@ -44,9 +44,10 @@ public class TableController {
         tableSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty().asObject());
         tableLocation.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
         tableAssigned.setCellValueFactory(cellData -> {
+            System.out.println(cellData.getValue().statusProperty().getValue());
             if (cellData.getValue().statusProperty().getValue() == null) {
                 return new SimpleStringProperty("Libre");
-            } else if (cellData.getValue().statusProperty().getValue().equals("pending")) {
+            } else if (cellData.getValue().statusProperty().getValue().equals("[pending]")) {
                 return new SimpleStringProperty("Occupé");
             } else {
                 return new SimpleStringProperty("Libre");
@@ -185,5 +186,56 @@ public class TableController {
                 alert.showAndWait();
             }
         }
+    }
+
+    /**
+     * @param event
+     * This function is called when the user clicks on the "Supprimer" button
+     * It will remove a table from the database and from the table view
+     */
+    @FXML
+    private void deleteTable(ActionEvent event) {
+        TableModel selectedTable = availableTables.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Êtes-vous sûr de vouloir supprimer cette table ?");
+        alert.setContentText("Cette action est irréversible.");
+        alert.showAndWait();
+
+        if (alert.getResult().getText().equals("OK")) {
+            // Delete the table from the database
+            String query = "DELETE FROM tables WHERE id = ?";
+            try (Connection connection = DatabaseConnection.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, selectedTable.getId());
+                statement.executeUpdate();
+
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information");
+                alert.setHeaderText("La table a été supprimée avec succès !");
+                alert.showAndWait();
+
+                // Delete the table from the table view
+                tables.remove(selectedTable);
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("La table n'a pas pu être supprimée !");
+                alert.showAndWait();
+            }
+        }
+    }
+
+    /**
+     * @param event
+     * This function is called when the user clicks on the "Rafraîchir" button
+     * It will refresh the table view
+     */
+    @FXML
+    private void refreshAvailableTables() {
+        initialize();
     }
 }

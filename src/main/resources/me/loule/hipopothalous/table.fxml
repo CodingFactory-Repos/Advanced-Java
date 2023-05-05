@@ -20,6 +20,8 @@
                     </TableView>
                     <HBox spacing="5">
                         <Button text="Libérer" onAction="#releaseTable"/>
+                        <Button text="Actualiser" onAction="#refreshAvailableTables"/>
+                        <Button text="Supprimer" onAction="#deleteTable"/>
                     </HBox>
                 </VBox>
                 <VBox spacing="5">
