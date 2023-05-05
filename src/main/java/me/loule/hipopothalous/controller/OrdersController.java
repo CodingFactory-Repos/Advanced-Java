@@ -13,6 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 class OrderDish {
     private final String name;
@@ -151,7 +152,7 @@ public class OrdersController {
                 });
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(e.getMessage());
         }
 
         addTableToList();
@@ -262,7 +263,7 @@ public class OrdersController {
                     .sorted(Comparator.comparing(TableModel::getLocation))
                     .forEach(tableModel -> tableListComboBox.getItems().add(tableModel.getLocation()));
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(e.getMessage());
         }
     }
 }

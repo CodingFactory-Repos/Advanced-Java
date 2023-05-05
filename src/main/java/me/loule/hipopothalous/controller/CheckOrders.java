@@ -11,6 +11,7 @@ import me.loule.hipopothalous.model.Orders;
 
 import java.io.FileNotFoundException;
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class CheckOrders {
     private final ObservableList<Orders> orders = FXCollections.observableArrayList();
@@ -103,7 +104,7 @@ public class CheckOrders {
 
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(e.getMessage());
         }
     }
 
@@ -130,7 +131,7 @@ public class CheckOrders {
                     vbTextFields.setVisible(true);
                     hbButtons.setVisible(true);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    Logger.getLogger(e.getMessage());
                 }
 
             }
@@ -213,7 +214,7 @@ public class CheckOrders {
                 alert.setHeaderText("Order canceled successfully");
                 alert.showAndWait();
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Error while canceling order");
