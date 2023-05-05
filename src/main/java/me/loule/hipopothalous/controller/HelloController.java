@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -45,6 +46,7 @@ public class HelloController implements Initializable {
 
     @FXML
     private AnchorPane workersPane;
+    private AnchorPane dashboardPanel;
 
     //When we click on the welcomeButton, the welcomeVBox will be visible
 
@@ -56,6 +58,7 @@ public class HelloController implements Initializable {
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        dashboardPanel.setVisible(false);
         ordersCheckPanel.setVisible(false);
         workersPane.setVisible(false);
         welcomeVBox.setVisible(true);
@@ -69,6 +72,7 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         tablesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        dashboardPanel.setVisible(false);
         ordersCheckPanel.setVisible(false);
         workersPane.setVisible(false);
         dishesPanel.setVisible(true);
@@ -83,6 +87,7 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
+        dashboardPanel.setVisible(false);
         ordersCheckPanel.setVisible(false);
         workersPane.setVisible(false);
         ordersPanel.setVisible(true);
@@ -109,6 +114,7 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        dashboardPanel.setVisible(false);
         ordersCheckPanel.setVisible(false);
         workersPane.setVisible(false);
         tablesPanel.setVisible(true);
@@ -121,6 +127,15 @@ public class HelloController implements Initializable {
         ordersCheckPanel.setVisible(false);
         tablesPanel.setVisible(false);
         workersPane.setVisible(true);
+    }
+    public void onDashBordButtonClick() {
+        welcomeVBox.setVisible(false);
+        dishesPanel.setVisible(false);
+        ordersPanel.setVisible(false);
+        tablesPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
+        workersPane.setVisible(false);
+        dashboardPanel.setVisible(true);
     }
 
     /**
@@ -190,4 +205,6 @@ public class HelloController implements Initializable {
         Chronometre.initializeChronometry(Chronometre.isServiceChrono);
         Chronometre.ChronoThread.start();
     }
+
+
 }
