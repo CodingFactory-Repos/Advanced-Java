@@ -7,9 +7,11 @@ import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.Accounting;
 import me.loule.hipopothalous.model.DatabaseConnection;
 import me.loule.hipopothalous.model.Orders;
+import me.loule.hipopothalous.model.TableModel;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 class OrderDish {
@@ -70,6 +72,10 @@ class OrderDish {
 public class OrdersController {
 
     @FXML
+    ComboBox tableListComboBox;
+
+    List<TableModel> tables = new ArrayList<>();
+    @FXML
     Pagination dishesPagination;
     @FXML
     ListView<OrderDish> lvOrder;
@@ -78,7 +84,7 @@ public class OrdersController {
     @FXML
     Label lblTotalPrice;
     @FXML
-    TextField tfTableNumber;
+    TextField tfTableNumber = new TextField();
     @FXML
     TextField tfPersonNumber;
     ArrayList<OrderDish> orderDishes = new ArrayList<>();
@@ -148,6 +154,7 @@ public class OrdersController {
             e.printStackTrace();
         }
 
+        addTableToList();
         // on listview item press decrement quantity
         lvOrder.setOnMouseClicked(event1 -> {
             if (event1.getClickCount() == 2) {
@@ -230,6 +237,32 @@ public class OrdersController {
                 alert.setContentText("Error while adding order");
                 alert.showAndWait();
             }
+        }
+    }
+
+    //When a table is selected from the combobox, the table number is added to the textfield
+    public void addTableNumber(){
+        for (TableModel tableModel : tables) {
+            if (tableModel.getLocation().equals(tableListComboBox.getValue())){
+                tfTableNumber.setText(String.valueOf(tableModel.getId()));
+            }
+        }
+    }
+
+    public void addTableToList(){
+        //Get all table from teh database and add them to the list
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM tables");
+            while (rs.next()) {
+                tables.add(new TableModel(rs.getInt("id"),rs.getInt("size"), rs.getString("location"), rs.getTimestamp("date")));
+            }
+            tables.stream()
+                    .sorted(Comparator.comparing(TableModel::getLocation))
+                    .forEach(tableModel -> tableListComboBox.getItems().add(tableModel.getLocation()));
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

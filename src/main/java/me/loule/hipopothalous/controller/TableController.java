@@ -10,10 +10,7 @@ import javafx.scene.control.TextField;
 import me.loule.hipopothalous.model.DatabaseConnection;
 import me.loule.hipopothalous.model.TableModel;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -72,7 +69,7 @@ public class TableController {
     private List<TableModel> resultSetToTableList(ResultSet resultSet) throws SQLException {
         return Stream.generate(() -> {
             try {
-                return resultSet.next() ? new TableModel(resultSet.getInt("size"), resultSet.getString("location")) : null;
+                return resultSet.next() ? new TableModel(resultSet.getInt("id") ,resultSet.getInt("size"), resultSet.getString("location") , resultSet.getTimestamp("date")) : null;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -88,8 +85,26 @@ public class TableController {
     private void addTable(ActionEvent event) {
         int size = Integer.parseInt(tableSizeInput.getText());
         String location = tableLocationInput.getText();
-        insertTable(size, location);
-        tables.add(new TableModel(size, location));
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        //got rid of miliseconds
+        timestamp.setNanos(0);
+
+        insertTable(size, location, timestamp);
+        int id = 0;
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT id FROM tables WHERE size = ? AND location = ? AND date = ?")) {
+            statement.setInt(1, size);
+            statement.setString(2, location);
+            statement.setTimestamp(3, timestamp);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                id = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(id);
+        tables.add(new TableModel(id, size, location, timestamp));
         tableSizeInput.clear();
         tableLocationInput.clear();
     }
@@ -99,13 +114,14 @@ public class TableController {
      * @param location
      * This function is used to insert a table in the database
      */
-    private void insertTable(int size, String location) {
-        String query = "INSERT INTO tables (size, location) VALUES (?, ?)";
+    private void insertTable(int size, String location, Timestamp timestamp) {
+        String query = "INSERT INTO tables (size, location, date) VALUES (?, ?, ?)";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, size);
             statement.setString(2, location);
+            statement.setTimestamp(3, timestamp);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
