@@ -94,28 +94,6 @@ public class Orders {
         return new SimpleObjectProperty<>(date);
     }
 
-    public float getPrice() {
-        return price;
-    }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public int getDishId() {
-        return dishId;
-    }
-
-    public String getTable() {
-        return table;
-    }
-
-    public int getPersonsPerTable() {
-        return personsPerTable;
-    }
 
 }

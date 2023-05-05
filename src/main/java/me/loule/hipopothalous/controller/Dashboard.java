@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import me.loule.hipopothalous.model.DatabaseConnection;
-import me.loule.hipopothalous.model.DishesModel;
+import me.loule.hipopothalous.model.Dishes;
 import me.loule.hipopothalous.model.Orders;
 
 import java.sql.*;
@@ -23,7 +23,7 @@ public class Dashboard {
     private String dishDescription;
     private Double dishPrice;
     static Connection connection = DatabaseConnection.getConnection();
-    List<DishesModel> localDishes = new ArrayList<>();
+    List<Dishes> localDishes = new ArrayList<>();
 
     List<Orders> localorders = new ArrayList<>();
 
@@ -40,13 +40,13 @@ public class Dashboard {
         }
     }
 
-    public static List<DishesModel> getAllDish() {
+    public static List<Dishes> getAllDish() {
         String sql = "SELECT * FROM dishes";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet rs = preparedStatement.executeQuery();
-            List<DishesModel> dishes = new ArrayList<>();
+            List<Dishes> dishes = new ArrayList<>();
             while (rs.next()) {
-                dishes.add(new DishesModel(rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("image")));
+                dishes.add(new Dishes(rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("image")));
             }
             return dishes;
         } catch (SQLException e) {
@@ -106,7 +106,7 @@ public class Dashboard {
                 while (rs.next()) {
                     String name = rs.getString("name");
                     double price = rs.getDouble("price");
-                    localDishes.add(new DishesModel(name, rs.getString("description"), price, rs.getString("image")));
+                    localDishes.add(new Dishes(name, rs.getString("description"), price, rs.getString("image")));
                     totalPrice += price;
                 }
                 Label totalPriceLabel = new Label("Prix total : " + totalPrice + "€");
@@ -131,12 +131,12 @@ public class Dashboard {
                 while (rs.next()) {
                     String status = rs.getString("status");
                     if (status.equals("delivered")) {
-                        float price = rs.getFloat("price");
-                        Date date = rs.getDate("date");
+                        int price = rs.getInt("price");
+                        Timestamp date = rs.getTimestamp("date");
                         int dishes = rs.getInt("id");
-                        String table = rs.getString("table_number");
+                        int table = rs.getInt("table_number");
                         int personInTable = rs.getInt("persons_Per_Table");
-                        localorders.add(new Orders(price, rs.getString("status"), date, dishes, table, personInTable));
+                        localorders.add(new Orders(dishes,rs.getString("status"),price, table, personInTable,date));
                         Label totalPriceLabel = new Label("Table :"+table + " Status:" + status +" Dates :" + date);
                         System.out.println(status);
                         totalPriceLabel.setPrefWidth(228);
@@ -163,17 +163,17 @@ public class Dashboard {
                 while (rs.next()) {
                     String status = rs.getString("status");
                         float price = rs.getFloat("price");
-                        Date date = rs.getDate("date");
+                        Timestamp date = rs.getTimestamp("date");
                         int dishes = rs.getInt("id");
-                        String table = rs.getString("table_number");
+                        int table = rs.getInt("table_number");
                         int personInTable = rs.getInt("persons_Per_Table");
-                        localorders.add(new Orders(price, status, date, dishes, table, personInTable));
+                    localorders.add(new Orders(dishes,rs.getString("status"),price, table, personInTable,date));
                 }
                 List<Orders> sortedOrders = localorders.stream()
                         .sorted(Comparator.comparing(Orders::getDate))
                         .collect(Collectors.toList());
                 for (Orders order : sortedOrders) {
-                    String table = order.getTable();
+                    int table = order.getTableNumber();
                     String status = order.getStatus();
                     Label totalPriceLabel = new Label("Table: " + table + " | Status: " + status);
                     System.out.println(status);
@@ -199,23 +199,23 @@ public class Dashboard {
                 while (rs.next()) {
                     String status = rs.getString("status");
                     float price = rs.getFloat("price");
-                    Date date = rs.getDate("date");
+                    Timestamp date = rs.getTimestamp("date");
                     int dishes = rs.getInt("id");
-                    String table = rs.getString("table_number");
+                    int table = rs.getInt("table_number");
                     int personInTable = rs.getInt("persons_Per_Table");
-                    localorders.add(new Orders(price, status, date, dishes, table, personInTable));
+                    localorders.add(new Orders(dishes,rs.getString("status"),price, table, personInTable,date));
                 }
 
                 Map<String, Float> tablePriceMap = new HashMap<>();
 
                 for (Orders order : localorders) {
-                    String table = order.getTable();
+                    int table = order.getTableNumber();
                     String status = order.getStatus();
-                    float price = order.getPrice();
+                    double price = order.getPrice();
                     if (status.equals("pending") || status.equals("ordered")|| status.equals("delivered")) {
                         float tablePrice = tablePriceMap.getOrDefault(table, 0.0f);
                         tablePrice += price;
-                        tablePriceMap.put(table, tablePrice);
+                        tablePriceMap.put(String.valueOf(table), tablePrice);
                     }
                 }
 
@@ -246,25 +246,25 @@ public class Dashboard {
                 while (rs.next()) {
                     String status = rs.getString("status");
                     float price = rs.getFloat("price");
-                    Date date = rs.getDate("date");
+                    Timestamp date = rs.getTimestamp("date");
                     int dishes = rs.getInt("id");
-                    String table = rs.getString("table_number");
+                    int table = rs.getInt("table_number");
                     int personInTable = rs.getInt("persons_Per_Table");
-                    localorders.add(new Orders(price, status, date, dishes, table, personInTable));
+                    localorders.add(new Orders(dishes,rs.getString("status"),price, table, personInTable,date));
                 }
 
-                List<Pair<String, Float>> tablePriceList = new ArrayList<>();
+                List<Pair<Integer, Double>> tablePriceList = new ArrayList<>();
 
                 for (Orders order : localorders) {
-                    String table = order.getTable();
+                    int table = order.getTableNumber();
                     String status = order.getStatus();
-                    float price = order.getPrice();
+                    double price = order.getPrice();
                     if (status.equals("paid")) {
                         tablePriceList.add(new Pair<>(table, price));
                     }
                 }
 
-                for (Pair<String, Float> tablePrice : tablePriceList) {
+                for (Pair<Integer, Double> tablePrice : tablePriceList) {
                     Label totalPriceLabel = new Label("Table: " + tablePrice.getKey() + " | Price paid: " + tablePrice.getValue());
                     totalPriceLabel.setPrefWidth(228);
                     container.getChildren().add(totalPriceLabel);

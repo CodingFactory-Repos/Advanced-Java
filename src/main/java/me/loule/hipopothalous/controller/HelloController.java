@@ -85,7 +85,6 @@ public class HelloController implements Initializable {
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
         dashboardPanel.setVisible(false);
-        ordersPanel.setVisible(!isVisible);
         ordersCheckPanel.setVisible(false);
         ordersPanel.setVisible(true);
     }
