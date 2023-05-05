@@ -3,6 +3,7 @@ package me.loule.hipopothalous.model;
 import javafx.beans.property.*;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class TableModel {
     private final IntegerProperty id;
@@ -12,12 +13,12 @@ public class TableModel {
     private final StringProperty status;
 
 
-    public TableModel(int id, int size, String location, Timestamp date, String status) {
+    public TableModel(int id, int size, String location, Timestamp date, String... status) {
         this.id = new SimpleIntegerProperty(id);
         this.size = new SimpleIntegerProperty(size);
         this.location = new SimpleStringProperty(location);
         this.date = date;
-        this.status = new SimpleStringProperty(status);
+        this.status = new SimpleStringProperty(status != null ? Arrays.toString(status) : "free");
     }
 
     public int getId() {

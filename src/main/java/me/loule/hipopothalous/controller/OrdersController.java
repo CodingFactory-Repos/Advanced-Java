@@ -263,7 +263,7 @@ public class OrdersController {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM tables");
             while (rs.next()) {
-                tables.add(new TableModel(rs.getInt("id"),rs.getInt("size"), rs.getString("location"), rs.getTimestamp("date"), rs.getString("status")));
+                tables.add(new TableModel(rs.getInt("id"),rs.getInt("size"), rs.getString("location"), rs.getTimestamp("date")));
             }
             tables.stream()
                     .sorted(Comparator.comparing(TableModel::getLocation))
