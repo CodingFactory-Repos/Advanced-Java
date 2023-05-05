@@ -137,7 +137,7 @@ public class WorkersController {
                         rs.getInt("deal_hours")
 
                 ));
-                workersList.sort(Comparator.comparing(WorkersModel::getFirstName));
+                workersList.sort(Comparator.comparing(WorkersModel::getLastName));
             }
 
         } catch (Exception e) {
