@@ -34,6 +34,10 @@
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin></Button>
+                        <Button fx:id="workersButton" onMouseClicked="#onWorkersButtonClick" styleClass="menu-button" text="Workers">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
                         <Button styleClass="menu-button" text="Statistiques">
                      <VBox.margin>
                         <Insets bottom="10.0" />
@@ -54,7 +58,8 @@
                     <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER" />
                     <fx:include fx:id="ordersPanel" source="orders2.fxml" visible="false" StackPane.alignment="CENTER" />
                     <fx:include fx:id="ordersCheckPanel" source="orders_check.fxml" visible="false" StackPane.alignment="CENTER" />
-                    <VBox fx:id="welcomeVBox" alignment="CENTER">
+                    <fx:include fx:id="workersPane" source="workers.fxml" visible="false" StackPane.alignment="CENTER" />
+                      <VBox fx:id="welcomeVBox" alignment="CENTER">
                         <Label styleClass="title" text="Bienvenue chez MonRestaurant" />
                         <Label text="Ce logiciel permet la gestion des tables et des plats" />
                     </VBox>

@@ -7,28 +7,28 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.DatabaseConnection;
-import me.loule.hipopothalous.model.Orders;
+import me.loule.hipopothalous.model.OrdersModel;
 
 import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.logging.Logger;
 
 public class CheckOrders {
-    private final ObservableList<Orders> orders = FXCollections.observableArrayList();
+    private final ObservableList<OrdersModel> orders = FXCollections.observableArrayList();
     @FXML
-    TableView<Orders> ordersTableView;
+    TableView<OrdersModel> ordersTableView;
     @FXML
-    TableColumn<Orders, Integer> orderId;
+    TableColumn<OrdersModel, Integer> orderId;
     @FXML
-    TableColumn<Orders, String> orderStatus;
+    TableColumn<OrdersModel, String> orderStatus;
     @FXML
-    TableColumn<Orders, Integer> orderTable;
+    TableColumn<OrdersModel, Integer> orderTable;
     @FXML
-    TableColumn<Orders, Integer> orderPersons;
+    TableColumn<OrdersModel, Integer> orderPersons;
     @FXML
-    TableColumn<Orders, Timestamp> orderDate;
+    TableColumn<OrdersModel, Timestamp> orderDate;
     @FXML
-    TableColumn<Orders, Double> orderTotalPrice;
+    TableColumn<OrdersModel, Double> orderTotalPrice;
 
 
     @FXML
@@ -49,8 +49,8 @@ public class CheckOrders {
     String newStatusValue = "";
 
 
-    private static TableCell<Orders, String> capitalize(TableColumn<Orders, String> column) {
-        return new TableCell<Orders, String>() {
+    private static TableCell<OrdersModel, String> capitalize(TableColumn<OrdersModel, String> column) {
+        return new TableCell<OrdersModel, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -91,14 +91,14 @@ public class CheckOrders {
                 String sql = "SELECT * FROM orders ORDER BY date DESC";
                 rs = statement.executeQuery(sql);
                 while (rs.next()) {
-                    orders.add(new Orders(
-                            rs.getInt("id"),
-                            rs.getString("status"),
-                            rs.getDouble("price"),
-                            rs.getInt("persons_per_table"),
-                            rs.getInt("table_number"),
-                            rs.getTimestamp("date")
-                    ));
+//                    orders.add(new OrdersModel(
+//                            rs.getInt("id"),
+//                            rs.getString("status"),
+//                            rs.getDouble("price"),
+//                            rs.getInt("persons_per_table"),
+//                            rs.getString("table_number"),
+//                            rs.getTimestamp("date")
+//                    ));
                 }
             }
 
