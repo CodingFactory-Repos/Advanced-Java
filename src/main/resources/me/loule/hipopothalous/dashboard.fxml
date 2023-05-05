@@ -32,13 +32,13 @@
                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                  </rowConstraints>
                <children>
-                   <Button alignment="CENTER" text="dscsc" GridPane.columnIndex="5" GridPane.rowIndex="0" />
-                  <Button alignment="CENTER" layoutX="385.0" layoutY="16.0" text="Liste employé" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                   <Button alignment="CENTER" onAction="#pointerPriceIndividual" text="Prix individuel old" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+                  <Button alignment="CENTER" layoutX="385.0" layoutY="16.0" onAction="#selectPriceInTable"   text="Facture Actuel Table" GridPane.columnIndex="5" GridPane.rowIndex="2" />
                   <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" onAction="#priceOrdreDesc" text="Plat +" GridPane.columnIndex="7" GridPane.rowIndex="1" />
                   <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" onAction="#priceOrdreAsc" text="Plat -" GridPane.columnIndex="6" GridPane.rowIndex="1" />
                   <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" onAction="#totalPrice" text="Value total" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                   <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" onAction="#selectedCommandInProgress" text="Commande en cours" GridPane.columnIndex="7" />
-                  <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" text="dscsc" GridPane.columnIndex="6" />
+                  <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" onAction="#selectedCommandPerDate" text="Historiques de commandes" GridPane.columnIndex="6" />
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="8">
                      <children>
                         <ScrollPane fx:id="listScrollPane" prefHeight="295.0" prefWidth="228.0">

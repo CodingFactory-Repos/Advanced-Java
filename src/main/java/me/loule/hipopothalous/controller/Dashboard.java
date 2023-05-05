@@ -5,14 +5,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import me.loule.hipopothalous.model.DatabaseConnection;
 import me.loule.hipopothalous.model.DishesModel;
 import me.loule.hipopothalous.model.Orders;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class Dashboard {
 
@@ -135,12 +137,139 @@ public class Dashboard {
                         String table = rs.getString("table_number");
                         int personInTable = rs.getInt("persons_Per_Table");
                         localorders.add(new Orders(price, rs.getString("status"), date, dishes, table, personInTable));
-                        Label totalPriceLabel = new Label("Table :"+table + "Status:" + status);
+                        Label totalPriceLabel = new Label("Table :"+table + " Status:" + status +" Dates :" + date);
                         System.out.println(status);
                         totalPriceLabel.setPrefWidth(228);
                         container.getChildren().add(totalPriceLabel);
                     }
                 }
+                listScrollPane.setContent(container);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectedCommandPerDate(ActionEvent event) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            ResultSet rs;
+            try (Statement statement = connection.createStatement()) {
+                String sql = "SELECT * FROM orders ORDER BY status ASC";
+                rs = statement.executeQuery(sql);
+                System.out.println("Je suis la");
+                List<Orders> localorders = new ArrayList<>();
+                VBox container = new VBox();
+                while (rs.next()) {
+                    String status = rs.getString("status");
+                        float price = rs.getFloat("price");
+                        Date date = rs.getDate("date");
+                        int dishes = rs.getInt("id");
+                        String table = rs.getString("table_number");
+                        int personInTable = rs.getInt("persons_Per_Table");
+                        localorders.add(new Orders(price, status, date, dishes, table, personInTable));
+                }
+                List<Orders> sortedOrders = localorders.stream()
+                        .sorted(Comparator.comparing(Orders::getDate))
+                        .collect(Collectors.toList());
+                for (Orders order : sortedOrders) {
+                    String table = order.getTable();
+                    String status = order.getStatus();
+                    Label totalPriceLabel = new Label("Table: " + table + " | Status: " + status);
+                    System.out.println(status);
+                    totalPriceLabel.setPrefWidth(228);
+                    container.getChildren().add(totalPriceLabel);
+                }
+                listScrollPane.setContent(container);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectPriceInTable(ActionEvent event) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            ResultSet rs;
+            try (Statement statement = connection.createStatement()) {
+                String sql = "SELECT * FROM orders ORDER BY status ASC";
+                rs = statement.executeQuery(sql);
+                List<Orders> localorders = new ArrayList<>();
+                VBox container = new VBox();
+                while (rs.next()) {
+                    String status = rs.getString("status");
+                    float price = rs.getFloat("price");
+                    Date date = rs.getDate("date");
+                    int dishes = rs.getInt("id");
+                    String table = rs.getString("table_number");
+                    int personInTable = rs.getInt("persons_Per_Table");
+                    localorders.add(new Orders(price, status, date, dishes, table, personInTable));
+                }
+
+                Map<String, Float> tablePriceMap = new HashMap<>();
+
+                for (Orders order : localorders) {
+                    String table = order.getTable();
+                    String status = order.getStatus();
+                    float price = order.getPrice();
+                    if (status.equals("pending") || status.equals("ordered")|| status.equals("delivered")) {
+                        float tablePrice = tablePriceMap.getOrDefault(table, 0.0f);
+                        tablePrice += price;
+                        tablePriceMap.put(table, tablePrice);
+                    }
+                }
+
+                List<String> sortedTables = new ArrayList<>(tablePriceMap.keySet());
+                Collections.sort(sortedTables);
+
+                for (String table : sortedTables) {
+                    Label totalPriceLabel = new Label("Table: " + table + " | Total Price: " + tablePriceMap.get(table));
+                    totalPriceLabel.setPrefWidth(228);
+                    container.getChildren().add(totalPriceLabel);
+                }
+                listScrollPane.setContent(container);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void pointerPriceIndividual(ActionEvent event) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            ResultSet rs;
+            try (Statement statement = connection.createStatement()) {
+                String sql = "SELECT * FROM orders ORDER BY status ASC";
+                rs = statement.executeQuery(sql);
+                List<Orders> localorders = new ArrayList<>();
+                VBox container = new VBox();
+                while (rs.next()) {
+                    String status = rs.getString("status");
+                    float price = rs.getFloat("price");
+                    Date date = rs.getDate("date");
+                    int dishes = rs.getInt("id");
+                    String table = rs.getString("table_number");
+                    int personInTable = rs.getInt("persons_Per_Table");
+                    localorders.add(new Orders(price, status, date, dishes, table, personInTable));
+                }
+
+                List<Pair<String, Float>> tablePriceList = new ArrayList<>();
+
+                for (Orders order : localorders) {
+                    String table = order.getTable();
+                    String status = order.getStatus();
+                    float price = order.getPrice();
+                    if (status.equals("paid")) {
+                        tablePriceList.add(new Pair<>(table, price));
+                    }
+                }
+
+                for (Pair<String, Float> tablePrice : tablePriceList) {
+                    Label totalPriceLabel = new Label("Table: " + tablePrice.getKey() + " | Price paid: " + tablePrice.getValue());
+                    totalPriceLabel.setPrefWidth(228);
+                    container.getChildren().add(totalPriceLabel);
+                }
+
                 listScrollPane.setContent(container);
             }
         } catch (SQLException e) {
