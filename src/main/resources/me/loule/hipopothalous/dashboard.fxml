@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.Dashboard">
+   <children>
+       <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+             <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                 <columnConstraints>
+                     <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                 </columnConstraints>
+                 <rowConstraints>
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                 </rowConstraints>
+               <children>
+                   <Button alignment="CENTER" text="dscsc" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+                  <Button alignment="CENTER" layoutX="385.0" layoutY="16.0" text="Liste employé" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                  <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" onAction="#priceOrdreDesc" text="Plat +" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                  <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" onAction="#priceOrdreAsc" text="Plat -" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                  <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" onAction="#totalPrice" text="Value total" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                  <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" text="dscsc" GridPane.columnIndex="7" />
+                  <Button alignment="CENTER" layoutX="25.0" layoutY="16.0" text="dscsc" GridPane.columnIndex="6" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="8">
+                     <children>
+                        <ScrollPane fx:id="listScrollPane" prefHeight="295.0" prefWidth="228.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="289.0" prefWidth="228.0" />
+                          </content>
+                        </ScrollPane>
+                     </children></VBox>
+                  <VBox prefHeight="200.0" prefWidth="216.0" GridPane.columnIndex="0" GridPane.columnSpan="5" GridPane.rowIndex="0" GridPane.rowSpan="11" />
+               </children>
+            </GridPane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>

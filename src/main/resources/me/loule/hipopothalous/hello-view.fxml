@@ -17,7 +17,7 @@
                     <Button fx:id="dishesButton" onMouseClicked="#onDishesButtonClick" styleClass="menu-button" text="Plats" />
                     <Button fx:id="tablesButton" onMouseClicked="#onTablesButtonClick" styleClass="menu-button" text="Tables" />
                     <Button fx:id="ordersButton" onMouseClicked="#onOrdersButtonClick" styleClass="menu-button" text="Commandes" />
-                    <Button styleClass="menu-button" text="Statistiques" />
+                    <Button fx:id="dashbordButton" onMouseClicked="#onDashBordButtonClick" styleClass="menu-button" text="Statistiques" />
                     <Button styleClass="menu-button" text="Paramètres" />
                <VBox prefHeight="268.0" prefWidth="108.0">
                   <children>
@@ -31,6 +31,8 @@
                     <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER" />
                     <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER" />
                     <fx:include fx:id="ordersPanel" source="orders2.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <fx:include fx:id="dashboardPanel" source="dashboard.fxml" visible="false" StackPane.alignment="CENTER" />
+
                     <VBox fx:id="welcomeVBox" alignment="CENTER">
                         <Label styleClass="title" text="Bienvenue chez MonRestaurant" />
                         <Label text="Ce logiciel permet la gestion des tables et des plats" />

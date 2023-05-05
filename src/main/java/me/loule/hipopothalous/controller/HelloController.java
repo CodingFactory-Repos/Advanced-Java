@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -42,6 +43,9 @@ public class HelloController implements Initializable {
     @FXML
     private AnchorPane ordersPanel;
 
+    @FXML
+    private AnchorPane dashboardPanel;
+
     //When we click on the welcomeButton, the welcomeVBox will be visible
 
     @FXML
@@ -49,6 +53,7 @@ public class HelloController implements Initializable {
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        dashboardPanel.setVisible(false);
         welcomeVBox.setVisible(true);
     }
 
@@ -58,6 +63,7 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         tablesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        dashboardPanel.setVisible(false);
         dishesPanel.setVisible(true);
 
     }
@@ -68,6 +74,7 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
+        dashboardPanel.setVisible(false);
         ordersPanel.setVisible(!isVisible);
     }
     @FXML
@@ -75,7 +82,16 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        dashboardPanel.setVisible(false);
         tablesPanel.setVisible(true);
+    }
+    @FXML
+    public void onDashBordButtonClick() {
+        welcomeVBox.setVisible(false);
+        dishesPanel.setVisible(false);
+        ordersPanel.setVisible(false);
+        tablesPanel.setVisible(false);
+        dashboardPanel.setVisible(true);
     }
 
     public void SetTimer(){
@@ -124,4 +140,6 @@ public class HelloController implements Initializable {
         Chronometre.initializeChronometry(Chronometre.isServiceChrono);
         Chronometre.ChronoThread.start();
     }
+
+
 }
