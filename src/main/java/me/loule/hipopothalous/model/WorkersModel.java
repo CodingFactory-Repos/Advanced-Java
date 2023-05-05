@@ -1,20 +1,17 @@
 package me.loule.hipopothalous.model;
-
-import javafx.beans.value.ObservableValue;
-
 public class WorkersModel {
     private int id;
     private String lastName;
     private String firstName;
     private String post;
-    private String hours;
+    private int deal_hours;
 
-    public WorkersModel(int id, String lastName, String firstName, String post, String hours) {
+    public WorkersModel(int id, String lastName, String firstName, String post, int deal_hours) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.post = post;
-        this.hours = hours;
+        this.deal_hours = deal_hours;
     }
 
     public int getId() {
@@ -49,13 +46,11 @@ public class WorkersModel {
         this.post = post;
     }
 
-    public String getHours() {
-        return hours;
+    public int getDeal_hours() {
+        return deal_hours;
     }
 
-    public void setHours(String hours) {
-        this.hours = hours;
+    public void setDeal_hours(int deal_hours) {
+        this.deal_hours = deal_hours;
     }
-
-
 }
