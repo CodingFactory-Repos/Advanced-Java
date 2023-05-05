@@ -9,12 +9,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+
 public class DishComponent extends HBox {
     private final ImageView dishImageView;
     private final Label dishNameLabel;
     private final Label dishPriceLabel;
     private final Label dishDescriptionLabel;
 
+    /**
+     * @param dishImage
+     * @param dishName
+     * @param dishPrice
+     * @param dishDescription
+     */
     public DishComponent(String dishImage, String dishName, Double dishPrice , String dishDescription) {
         dishImageView = new ImageView(new Image(dishImage));
         dishImageView.setFitHeight(50);
@@ -31,6 +38,9 @@ public class DishComponent extends HBox {
         dishDetailButton.setOnAction(event -> onDishDetailButtonClick());
     }
 
+    /**
+     * This function show a dialog with all information of the dishe
+     */
     //Sout when we click on the dishDetailButton
     public void onDishDetailButtonClick() {
         Dialog<Object> dialog = new Dialog<>();

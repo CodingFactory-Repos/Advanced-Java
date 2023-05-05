@@ -15,13 +15,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public class HelloController implements Initializable {
 
+    @FXML
+    private Pane ordersCheckPanel;
     private Chronometry Chronometre;
 
     @FXML
@@ -44,48 +45,81 @@ public class HelloController implements Initializable {
 
     //When we click on the welcomeButton, the welcomeVBox will be visible
 
+    /**
+     * This function show the welcome vbox and hide everything else
+     */
     @FXML
     protected void onWelcomeButtonClick() {
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         welcomeVBox.setVisible(true);
     }
 
-    //When whe click on dishesButton, the dishesPanel will be visible
+    /**
+     * This function show the dishes panel and hide everything else
+     */
     @FXML
     protected void onDishesButtonClick() {
         welcomeVBox.setVisible(false);
         tablesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         dishesPanel.setVisible(true);
 
     }
 
+    /**
+     * This function show the order panel and hide everything else
+     */
     @FXML
     private void onOrdersButtonClick() {
-        var isVisible = ordersPanel.isVisible();
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
-        ordersPanel.setVisible(!isVisible);
+        ordersCheckPanel.setVisible(false);
+        ordersPanel.setVisible(true);
     }
+
+    /**
+     * This function show the orders check panel and hide everything else
+     */
+    @FXML
+    protected void onOrdersCheckButtonClick() {
+        welcomeVBox.setVisible(false);
+        dishesPanel.setVisible(false);
+        tablesPanel.setVisible(false);
+        ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(true);
+    }
+
+    /**
+     * This function show the tables panel and hide everything else
+     */
     @FXML
     protected void onTablesButtonClick() {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        ordersCheckPanel.setVisible(false);
         tablesPanel.setVisible(true);
     }
 
-    public void SetTimer(){
-        KeyFrame RefreshView = new KeyFrame(Duration.millis(1000), e -> RefreshAll());
-        Timeline refreshTimeline= new Timeline((RefreshView));
+    /**
+     * This function is used to start the timer
+     */
+    public void setTimer(){
+        KeyFrame refreshView = new KeyFrame(Duration.millis(1000), e -> refreshAll());
+        Timeline refreshTimeline= new Timeline((refreshView));
         refreshTimeline.setCycleCount((Timeline.INDEFINITE));
         refreshTimeline.play();
     }
 
-    private void RefreshAll(){
+    /**
+     * This function is used to disable button when under 15min of the timer
+     */
+    private void refreshAll(){
         if (Chronometre.minutes <=15){
             forEachButton(parentHbox,button -> button.setDisable(true));
         }
@@ -96,6 +130,11 @@ public class HelloController implements Initializable {
     }
 
 
+    /**
+     * @param root
+     * @param action
+     * This function is used in order to navigate in every button
+     */
     public void forEachButton(Parent root, Consumer<Button> action){ // Methode permettant de naviguer dans tout les boutons d'un parent jusqu'à l'enfant.
         for (Node node : root.getChildrenUnmodifiable()){
             if (node instanceof Button){
@@ -108,13 +147,23 @@ public class HelloController implements Initializable {
     }
 
 
+    /**
+     * @param url            The location used to resolve relative paths for the root object, or
+     *                       {@code null} if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or {@code null} if
+     *                       the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Chronometre = new Chronometry();
-        SetTimer();
+        setTimer();
     }
 
-    public void ChangeService(ActionEvent actionEvent) {
+    /**
+     * @param actionEvent
+     *
+     */
+    public void changeService(ActionEvent actionEvent) {
         if (Chronometre.ChronoThread != null) {
             if(Chronometre.ChronoThread.isAlive()){
                 Chronometre.ChronoThread.interrupt();
