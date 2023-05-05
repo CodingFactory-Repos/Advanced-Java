@@ -27,6 +27,9 @@ public class HelloController implements Initializable {
     private Chronometry Chronometre;
 
     @FXML
+    private Button serviceButton;
+
+    @FXML
     private VBox welcomeVBox;
 
     @FXML
@@ -102,6 +105,7 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         tablesPanel.setVisible(false);
+        dashboardPanel.setVisible(false);
         ordersPanel.setVisible(false);
         workersPane.setVisible(false);
         ordersCheckPanel.setVisible(true);
@@ -125,6 +129,7 @@ public class HelloController implements Initializable {
         welcomeVBox.setVisible(false);
         dishesPanel.setVisible(false);
         ordersPanel.setVisible(false);
+        dashboardPanel.setVisible(false);
         ordersCheckPanel.setVisible(false);
         tablesPanel.setVisible(false);
         workersPane.setVisible(true);
@@ -155,6 +160,9 @@ public class HelloController implements Initializable {
     private void refreshAll(){
         if (Chronometre.minutes <=15){
             forEachButton(parentHbox,button -> button.setDisable(true));
+            dashboardPanel.setDisable(false);
+            serviceButton.setDisable(false);
+
         }
         else{
             forEachButton(parentHbox,button -> button.setDisable(false));
