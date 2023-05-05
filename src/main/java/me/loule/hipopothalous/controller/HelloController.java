@@ -203,10 +203,9 @@ public class HelloController implements Initializable {
         if (Chronometre.ChronoThread != null) {
             if(Chronometre.ChronoThread.isAlive()){
                 Chronometre.ChronoThread.interrupt();
+            }else{
+                Chronometre.ChronoThread.start();
             }
-        }
-        if (!Chronometre.ChronoThread.isAlive()){
-            Chronometre.ChronoThread.start();
         }
 
     }
