@@ -14,8 +14,7 @@ import me.loule.hipopothalous.model.WorkersModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Comparator;
 
 public class WorkersController {
 
@@ -77,15 +76,16 @@ public class WorkersController {
         tcWorkerFirstName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstName()));
         tcWorkerPost.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPost()));
         tcWorkerDealHours.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getDeal_hours())));
-//        get the return value from the method getTotalHours() and set it to the column tcWorkerTotalHours
         tcWorkerTotalHours.setCellValueFactory(cellData -> new SimpleStringProperty(getTotalHours(cellData.getValue().getId())));
         tvWorkers.setItems(workersList);
+
         onAddWorkerButtonClick();
         getWorkers();
         handleSelectWorker();
         showAddForm();
         showAddHoursForm();
         addHours();
+        handleFireWorker();
     }
 
     @FXML
@@ -135,8 +135,11 @@ public class WorkersController {
                         rs.getString("firstName"),
                         rs.getString("post"),
                         rs.getInt("deal_hours")
+
                 ));
+                workersList.sort(Comparator.comparing(WorkersModel::getFirstName));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -241,8 +244,30 @@ public class WorkersController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Logger.getLogger(WorkersController.class.getName()).log(Level.INFO, "Total hours: " + totalHours);
         return totalHours;
     }
 
+    private void handleFireWorker() {
+        btnDeleteWorker.setOnAction(event -> {
+            WorkersModel selectedWorker = tvWorkers.getSelectionModel().getSelectedItem();
+            if (selectedWorker != null) {
+                Connection connection = DatabaseConnection.getConnection();
+                String query = "DELETE FROM workers WHERE worker_id = ?";
+                String query2 = "DELETE FROM workers_hours WHERE worker_id = ?";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query2)) {
+                    preparedStatement.setInt(1, selectedWorker.getId());
+                    preparedStatement.executeUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setInt(1, selectedWorker.getId());
+                    preparedStatement.executeUpdate();
+                    workersList.remove(selectedWorker);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }
