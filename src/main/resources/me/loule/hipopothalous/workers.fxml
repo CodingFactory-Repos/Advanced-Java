@@ -12,19 +12,36 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="workersPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.loule.hipopothalous.controller.WorkersController">
    <children>
       <HBox>
          <children>
-            <TableView fx:id="tvWorkers">
-              <columns>
-                <TableColumn fx:id="tcWorkerLastName" prefWidth="150.0" text="Last Name" />
-                <TableColumn fx:id="tcWorkerFirstName" prefWidth="150.0" text="First Name" />
-                  <TableColumn fx:id="tcWorkerPost" prefWidth="150.0" text="Post" />
-                  <TableColumn fx:id="tcWorkerHours" prefWidth="150.0" text="Hours" />
-              </columns>
-            </TableView>
+            <VBox>
+               <children>
+                  <TableView fx:id="tvWorkers">
+                    <columns>
+                      <TableColumn fx:id="tcWorkerLastName" prefWidth="150.0" text="Last Name" />
+                      <TableColumn fx:id="tcWorkerFirstName" prefWidth="150.0" text="First Name" />
+                        <TableColumn fx:id="tcWorkerPost" prefWidth="150.0" text="Post" />
+                        <TableColumn fx:id="tcWorkerHours" prefWidth="150.0" text="Hours" />
+                    </columns>
+                  </TableView>
+                  <HBox fx:id="hbButtons" alignment="CENTER_LEFT" prefHeight="50.0" visible="false">
+                     <children>
+                        <Button fx:id="btnDeleteWorker" alignment="CENTER" mnemonicParsing="false" prefWidth="75.0" text="Fire">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
             <VBox alignment="CENTER">
                <children>
                   <GridPane fx:id="gpFormWorkers">

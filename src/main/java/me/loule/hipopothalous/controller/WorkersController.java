@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import me.loule.hipopothalous.model.DatabaseConnection;
 import me.loule.hipopothalous.model.WorkersModel;
 
@@ -27,6 +28,10 @@ public class WorkersController {
     TextField tfWorkerHours;
     @FXML
     Button btnAddWorker;
+    @FXML
+    Button btnDeleteWorker;
+    @FXML
+    HBox hbButtons;
     @FXML
     GridPane gpFormWorkers;
     @FXML
@@ -51,6 +56,7 @@ public class WorkersController {
         tvWorkers.setItems(workersList);
         onAddWorkerButtonClick();
         getWorkers();
+        handleDeleteWorker();
     }
 
     @FXML
@@ -107,5 +113,27 @@ public class WorkersController {
         }
     }
 
+    private void handleDeleteWorker() {
+        tvWorkers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                hbButtons.setVisible(true);
+            }
+        });
+
+        btnDeleteWorker.setOnAction(event -> {
+            WorkersModel selectedWorker = tvWorkers.getSelectionModel().getSelectedItem();
+            if (selectedWorker != null) {
+                Connection connection = DatabaseConnection.getConnection();
+                String query = "DELETE FROM workers WHERE worker_id = ?";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setInt(1, selectedWorker.getId());
+                    preparedStatement.executeUpdate();
+                    workersList.remove(selectedWorker);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
 }
