@@ -15,6 +15,7 @@
                         <columns>
                             <TableColumn text="Taille" fx:id="tableSize"/>
                             <TableColumn text="Emplacement" fx:id="tableLocation"/>
+                            <TableColumn text="Assignée" fx:id="tableAssigned"/>
                         </columns>
                     </TableView>
                     <HBox spacing="5">

@@ -6,7 +6,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.Accounting;
 import me.loule.hipopothalous.model.DatabaseConnection;
-import me.loule.hipopothalous.model.Orders;
 import me.loule.hipopothalous.model.TableModel;
 
 import java.sql.*;
@@ -180,7 +179,7 @@ public class OrdersController {
      * It will check if all the fields are filled in and if they are it will add the order to the database
      */
     public void addOrder() {
-        if (tfPersonNumber.getText().equals("") || tfTableNumber.getText().equals("") || orderDishes.isEmpty()) {
+        if (tfPersonNumber.getText().equals("") || orderDishes.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error adding order");
             alert.setHeaderText("Error adding order");
@@ -202,7 +201,7 @@ public class OrdersController {
                     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                         preparedStatement.setString(1, "pending");
                         preparedStatement.setDouble(2, Math.round(price * 100.0) / 100.0);
-                        preparedStatement.setString(3, tfTableNumber.getValue());
+                        preparedStatement.setInt(3, Integer.parseInt(tfTableNumber.getText()));
                         preparedStatement.setInt(4, Integer.parseInt(tfPersonNumber.getText()));
                         preparedStatement.setTimestamp(5, timestamp);
                         Accounting.createAccounting("Gain", Math.round(price * 100.0) / 100.0, timestamp);
@@ -243,8 +242,8 @@ public class OrdersController {
 
     //When a table is selected from the combobox, the table number is added to the textfield
     public void addTableNumber(){
-        for (TableModel tableModel : tables) {
-            if (tableModel.getLocation().equals(tableListComboBox.getValue())){
+        for (TableModel tableModel: tables) {
+            if (tableListComboBox.getSelectionModel().getSelectedItem().equals(tableModel.getId() + " - " + tableModel.getLocation())) {
                 tfTableNumber.setText(String.valueOf(tableModel.getId()));
             }
         }
@@ -257,11 +256,11 @@ public class OrdersController {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM tables");
             while (rs.next()) {
-                tables.add(new TableModel(rs.getInt("id"),rs.getInt("size"), rs.getString("location"), rs.getTimestamp("date")));
+                tables.add(new TableModel(rs.getInt("id"),rs.getInt("size"), rs.getString("location"), rs.getTimestamp("date"), rs.getString("status")));
             }
             tables.stream()
                     .sorted(Comparator.comparing(TableModel::getLocation))
-                    .forEach(tableModel -> tableListComboBox.getItems().add(tableModel.getLocation()));
+                    .forEach(tableModel -> tableListComboBox.getItems().add(tableModel.getId() + " - " + tableModel.getLocation()));
         } catch (SQLException e) {
             Logger.getLogger(e.getMessage());
         }
