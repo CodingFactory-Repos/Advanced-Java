@@ -6,6 +6,7 @@ module me.loule.hipopothalous {
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
     requires java.sql;
+    requires itextpdf;
 
     opens me.loule.hipopothalous to javafx.fxml;
     exports me.loule.hipopothalous;
