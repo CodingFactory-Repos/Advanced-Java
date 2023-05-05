@@ -9,7 +9,9 @@ import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.DatabaseConnection;
 import me.loule.hipopothalous.model.OrdersModel;
 
+import java.io.FileNotFoundException;
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class CheckOrders {
     private final ObservableList<OrdersModel> orders = FXCollections.observableArrayList();
@@ -72,6 +74,15 @@ public class CheckOrders {
         handleMenuButton();
     }
 
+    /**
+     * @throws FileNotFoundException
+     * This function is used to call the "createPdf" function
+     */
+    @FXML
+    protected void createPdf() throws FileNotFoundException {
+        PdfConverter.createPdf();
+    }
+
     private void getData() {
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -93,7 +104,7 @@ public class CheckOrders {
 
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(e.getMessage());
         }
     }
 
@@ -120,7 +131,7 @@ public class CheckOrders {
                     vbTextFields.setVisible(true);
                     hbButtons.setVisible(true);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    Logger.getLogger(e.getMessage());
                 }
 
             }
@@ -164,7 +175,7 @@ public class CheckOrders {
                 alert.setHeaderText("Order updated successfully");
                 alert.showAndWait();
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Error while updating order");
@@ -203,7 +214,7 @@ public class CheckOrders {
                 alert.setHeaderText("Order canceled successfully");
                 alert.showAndWait();
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Error while canceling order");

@@ -24,7 +24,7 @@
                     <Button styleClass="menu-button" text="Paramètres" />
                <VBox prefHeight="268.0" prefWidth="108.0">
                   <children>
-                      <Button fx:id="ServiceBtn" onAction="#ChangeService" text="Service" />
+                      <Button fx:id="ServiceBtn" onAction="#changeService" text="Service" />
                      <Label fx:id="timerLbl" text="Label" />
                   </children></VBox>
                 </children>

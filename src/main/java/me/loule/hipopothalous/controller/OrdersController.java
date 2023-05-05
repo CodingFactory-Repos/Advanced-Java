@@ -4,11 +4,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import me.loule.hipopothalous.model.Accounting;
 import me.loule.hipopothalous.model.DatabaseConnection;
+import me.loule.hipopothalous.model.Orders;
+import me.loule.hipopothalous.model.TableModel;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 class OrderDish {
     private final String name;
@@ -31,6 +36,11 @@ class OrderDish {
     }
 
 
+    /**
+     * @param obj
+     * @return
+     * This function is used to compare two OrderDish objects and check if they are the same
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof OrderDish orderDish) {
@@ -63,6 +73,10 @@ class OrderDish {
 public class OrdersController {
 
     @FXML
+    ComboBox tableListComboBox;
+
+    List<TableModel> tables = new ArrayList<>();
+    @FXML
     Pagination dishesPagination;
     @FXML
     ListView<OrderDish> lvOrder;
@@ -71,12 +85,17 @@ public class OrdersController {
     @FXML
     Label lblTotalPrice;
     @FXML
-    TextField tfTableNumber;
+    TextField tfTableNumber = new TextField();
     @FXML
     TextField tfPersonNumber;
     ArrayList<OrderDish> orderDishes = new ArrayList<>();
     List<OrderDish> dishes = new ArrayList<>();
 
+    /**
+     * This function is called when the view is initialized
+     * It will load the dishes from the database and display them in the pagination
+     * It will also initialize the order list view
+     */
     public void initialize() {
         try {
             Connection connection = DatabaseConnection.getConnection();
@@ -133,9 +152,10 @@ public class OrdersController {
                 });
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(e.getMessage());
         }
 
+        addTableToList();
         // on listview item press decrement quantity
         lvOrder.setOnMouseClicked(event1 -> {
             if (event1.getClickCount() == 2) {
@@ -154,7 +174,11 @@ public class OrdersController {
 
     }
 
-    @FXML
+
+    /**
+     * This function is called when the user clicks on the confirm order button
+     * It will check if all the fields are filled in and if they are it will add the order to the database
+     */
     public void addOrder() {
         if (tfPersonNumber.getText().equals("") || tfTableNumber.getText().equals("") || orderDishes.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -174,13 +198,14 @@ public class OrdersController {
                         price += rs.getDouble(1) * orderDish.getQuantity();
                     }
 
-                    String sql = "INSERT INTO orders (status, price,table_number, persons_per_table,date) VALUES (?, ?, ?, ?, ?)";
+                    String sql = "INSERT INTO orders (status, price, table_number, persons_per_table,date) VALUES (?, ?, ?, ?, ?)";
                     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                         preparedStatement.setString(1, "pending");
                         preparedStatement.setDouble(2, Math.round(price * 100.0) / 100.0);
-                        preparedStatement.setInt(3, Integer.parseInt(tfTableNumber.getText()));
+                        preparedStatement.setString(3, tfTableNumber.getValue());
                         preparedStatement.setInt(4, Integer.parseInt(tfPersonNumber.getText()));
                         preparedStatement.setTimestamp(5, timestamp);
+                        Accounting.createAccounting("Gain", Math.round(price * 100.0) / 100.0, timestamp);
                         preparedStatement.executeUpdate();
                     }
 
@@ -213,6 +238,32 @@ public class OrdersController {
                 alert.setContentText("Error while adding order");
                 alert.showAndWait();
             }
+        }
+    }
+
+    //When a table is selected from the combobox, the table number is added to the textfield
+    public void addTableNumber(){
+        for (TableModel tableModel : tables) {
+            if (tableModel.getLocation().equals(tableListComboBox.getValue())){
+                tfTableNumber.setText(String.valueOf(tableModel.getId()));
+            }
+        }
+    }
+
+    public void addTableToList(){
+        //Get all table from teh database and add them to the list
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM tables");
+            while (rs.next()) {
+                tables.add(new TableModel(rs.getInt("id"),rs.getInt("size"), rs.getString("location"), rs.getTimestamp("date")));
+            }
+            tables.stream()
+                    .sorted(Comparator.comparing(TableModel::getLocation))
+                    .forEach(tableModel -> tableListComboBox.getItems().add(tableModel.getLocation()));
+        } catch (SQLException e) {
+            Logger.getLogger(e.getMessage());
         }
     }
 }
