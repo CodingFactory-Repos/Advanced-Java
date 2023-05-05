@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Comparator;
+import java.util.logging.Logger;
 
 public class WorkersController {
 
@@ -141,7 +142,7 @@ public class WorkersController {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(e.getMessage());
         }
     }
 
@@ -226,7 +227,7 @@ public class WorkersController {
                 alert.showAndWait();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getLogger(e.getMessage());
             }
         });
     }
