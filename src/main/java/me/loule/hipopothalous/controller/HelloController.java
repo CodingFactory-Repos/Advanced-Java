@@ -197,14 +197,18 @@ public class HelloController implements Initializable {
      *
      */
     public void changeService(ActionEvent actionEvent) {
+        Chronometre.isServiceChrono=!Chronometre.isServiceChrono;
+        Chronometre.initializeChronometry(Chronometre.isServiceChrono);
+
         if (Chronometre.ChronoThread != null) {
             if(Chronometre.ChronoThread.isAlive()){
                 Chronometre.ChronoThread.interrupt();
             }
         }
-        Chronometre.isServiceChrono=!Chronometre.isServiceChrono;
-        Chronometre.initializeChronometry(Chronometre.isServiceChrono);
-        Chronometre.ChronoThread.start();
+        if (!Chronometre.ChronoThread.isAlive()){
+            Chronometre.ChronoThread.start();
+        }
+
     }
 
 
