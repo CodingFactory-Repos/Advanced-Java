@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.DatabaseConnection;
 import me.loule.hipopothalous.model.DishesModel;
+import me.loule.hipopothalous.model.Orders;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class Dashboard {
     private Double dishPrice;
     static Connection connection = DatabaseConnection.getConnection();
     List<DishesModel> localDishes = new ArrayList<>();
+
+    List<Orders> localorders = new ArrayList<>();
+
 
     public static void addDish(String name, String description, Double price) {
         String sql = "INSERT INTO dishes (name, description, price, image) VALUES (?, ?, ?, ?)";
@@ -111,4 +115,38 @@ public class Dashboard {
             e.printStackTrace();
         }
     }
+
+    public void selectedCommandInProgress(ActionEvent event) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            ResultSet rs;
+            try (Statement statement = connection.createStatement()) {
+                String sql = "SELECT * FROM orders";
+                rs = statement.executeQuery(sql);
+                System.out.println("Je suis la");
+                List<Orders> localorders = new ArrayList<>();
+                VBox container = new VBox();
+                while (rs.next()) {
+                    String status = rs.getString("status");
+                    if (status.equals("delivered")) {
+                        float price = rs.getFloat("price");
+                        Date date = rs.getDate("date");
+                        int dishes = rs.getInt("id");
+                        String table = rs.getString("table_number");
+                        int personInTable = rs.getInt("persons_Per_Table");
+                        localorders.add(new Orders(price, rs.getString("status"), date, dishes, table, personInTable));
+                        Label totalPriceLabel = new Label("Table :"+table + "Status:" + status);
+                        System.out.println(status);
+                        totalPriceLabel.setPrefWidth(228);
+                        container.getChildren().add(totalPriceLabel);
+                    }
+                }
+                listScrollPane.setContent(container);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
