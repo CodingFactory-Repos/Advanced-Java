@@ -1,5 +1,7 @@
 package me.loule.hipopothalous.controller;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,6 +30,8 @@ public class TableController {
     private TextField tableSizeInput;
     @FXML
     private TextField tableLocationInput;
+    @FXML
+    private TableColumn<TableModel, String> tableAssigned;
 
     private ObservableList<TableModel> tables = FXCollections.observableArrayList();
 
@@ -38,6 +42,16 @@ public class TableController {
     public void initialize() {
         tableSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty().asObject());
         tableLocation.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
+        tableAssigned.setCellValueFactory(cellData -> {
+            if (cellData.getValue().statusProperty().getValue() == null) {
+                return new SimpleStringProperty("Libre");
+            } else if (cellData.getValue().statusProperty().getValue().equals("pending")) {
+                return new SimpleStringProperty("Occupé");
+            } else {
+                return new SimpleStringProperty("Libre");
+            }
+        });
+
         availableTables.setItems(tables);
         loadTablesFromDatabase();
     }
@@ -47,14 +61,13 @@ public class TableController {
      * It will be called when the application starts
      */
     private void loadTablesFromDatabase() {
-        String query = "SELECT * FROM tables";
+        String query = "SELECT tables.*, last_order.status FROM tables LEFT JOIN (SELECT table_number, status FROM orders WHERE date = (SELECT MAX(date) FROM orders AS o WHERE o.table_number = orders.table_number)) AS last_order ON tables.id = last_order.table_number;";
 
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 
             tables.setAll(resultSetToTableList(resultSet));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,7 +83,7 @@ public class TableController {
     private List<TableModel> resultSetToTableList(ResultSet resultSet) throws SQLException {
         return Stream.generate(() -> {
             try {
-                return resultSet.next() ? new TableModel(resultSet.getInt("id") ,resultSet.getInt("size"), resultSet.getString("location") , resultSet.getTimestamp("date")) : null;
+                return resultSet.next() ? new TableModel(resultSet.getInt("id"), resultSet.getInt("size"), resultSet.getString("location"), resultSet.getTimestamp("date"), resultSet.getString("status")) : null;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -92,6 +105,7 @@ public class TableController {
 
         insertTable(size, location, timestamp);
         int id = 0;
+        String status = "";
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement("SELECT id FROM tables WHERE size = ? AND location = ? AND date = ?")) {
             statement.setInt(1, size);
@@ -100,12 +114,13 @@ public class TableController {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 id = resultSet.getInt("id");
+                status = resultSet.getString("status");
             }
         } catch (SQLException e) {
             Logger.getLogger("Failed to get id from database!");
         }
         System.out.println(id);
-        tables.add(new TableModel(id, size, location, timestamp));
+        tables.add(new TableModel(id, size, location, timestamp, status));
         tableSizeInput.clear();
         tableLocationInput.clear();
     }
@@ -131,7 +146,7 @@ public class TableController {
 
     @FXML
     private void assignTable(ActionEvent event) {
-        // Implémentez la logique pour assigner une table à un client en enregistrant sa commande.
+        // Implement this function to assign a table to a customer
     }
 
     /**
