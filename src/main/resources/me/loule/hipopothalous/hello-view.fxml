@@ -33,15 +33,6 @@
             </VBox>
             <StackPane prefHeight="100.0" prefWidth="200.0">
                 <children>
-                    <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <fx:include fx:id="ordersPanel" source="orders2.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <fx:include fx:id="ordersCheckPanel" source="orders_check.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <fx:include fx:id="workersPane" source="workers.fxml" visible="false" StackPane.alignment="CENTER"/>
-                    <VBox alignment="CENTER" fx:id="welcomeVBox">
-                        <Label styleClass="title" text="Bienvenue chez MonRestaurant"/>
-                        <Label text="Ce logiciel permet la gestion des tables et des plats"/>
-
                     <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER" />
                     <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER" />
                     <fx:include fx:id="ordersPanel" source="orders2.fxml" visible="false" StackPane.alignment="CENTER" />
