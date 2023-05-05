@@ -175,7 +175,7 @@ public class CheckOrders {
                 alert.setHeaderText("Order updated successfully");
                 alert.showAndWait();
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(e.getMessage());
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setHeaderText("Error while updating order");

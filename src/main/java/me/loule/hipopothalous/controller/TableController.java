@@ -13,6 +13,7 @@ import me.loule.hipopothalous.model.TableModel;
 import java.sql.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -101,7 +102,7 @@ public class TableController {
                 id = resultSet.getInt("id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger("Failed to get id from database!");
         }
         System.out.println(id);
         tables.add(new TableModel(id, size, location, timestamp));
