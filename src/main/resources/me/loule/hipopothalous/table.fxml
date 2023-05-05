@@ -19,7 +19,6 @@
                         </columns>
                     </TableView>
                     <HBox spacing="5">
-                        <Button text="Assigner" onAction="#assignTable"/>
                         <Button text="Libérer" onAction="#releaseTable"/>
                     </HBox>
                 </VBox>

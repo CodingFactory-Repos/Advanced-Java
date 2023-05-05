@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -144,11 +145,6 @@ public class TableController {
         }
     }
 
-    @FXML
-    private void assignTable(ActionEvent event) {
-        // Implement this function to assign a table to a customer
-    }
-
     /**
      * @param event
      * This function is called when the user clicks on the "Libérer" button
@@ -157,8 +153,37 @@ public class TableController {
     @FXML
     private void releaseTable(ActionEvent event) {
         TableModel selectedTable = availableTables.getSelectionModel().getSelectedItem();
-        if (selectedTable != null) {
-            tables.remove(selectedTable);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Êtes-vous sûr de vouloir libérer cette table ?");
+        alert.setContentText("Cette action est irréversible.");
+        alert.showAndWait();
+
+        if (alert.getResult().getText().equals("OK")) {
+            // Set the table status to "paid" in the database
+            String query = "UPDATE orders SET status = 'paid' WHERE table_number = ? AND status = 'pending'";
+            try (Connection connection = DatabaseConnection.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, selectedTable.getId());
+                statement.executeUpdate();
+
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information");
+                alert.setHeaderText("La table a été libérée avec succès !");
+                alert.showAndWait();
+
+                // Set the table status to "paid" in the table view
+                selectedTable.setStatus("Disponible");
+                availableTables.refresh();
+            } catch (SQLException e) {
+                e.printStackTrace();
+
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("La table n'a pas pu être libérée !");
+                alert.showAndWait();
+            }
         }
     }
 }

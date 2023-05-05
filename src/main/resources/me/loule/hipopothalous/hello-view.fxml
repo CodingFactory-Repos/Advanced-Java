@@ -14,12 +14,30 @@
             <VBox prefHeight="328.0" prefWidth="128.0" spacing="10" styleClass="menu-bar">
                 <children>
                     <VBox prefHeight="268.0" prefWidth="108.0">
-                        <Button fx:id="welcomeButton" onMouseClicked="#onWelcomeButtonClick" styleClass="menu-button" text="Accueil" />
-                        <Button fx:id="dishesButton" onMouseClicked="#onDishesButtonClick" styleClass="menu-button" text="Plats" />
-                        <Button fx:id="tablesButton" onMouseClicked="#onTablesButtonClick" styleClass="menu-button" text="Tables" />
-                        <Button fx:id="ordersButton" onMouseClicked="#onOrdersButtonClick" styleClass="menu-button" text="Commandes" />
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#onOrdersCheckButtonClick" prefHeight="45.0" prefWidth="100.0" styleClass="menu-button" text="Check Orders" textAlignment="CENTER" />
-                        <Button styleClass="menu-button" text="Statistiques" />
+                        <Button fx:id="welcomeButton" onMouseClicked="#onWelcomeButtonClick" styleClass="menu-button" text="Accueil">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
+                        <Button fx:id="dishesButton" onMouseClicked="#onDishesButtonClick" styleClass="menu-button" text="Plats">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
+                        <Button fx:id="tablesButton" onMouseClicked="#onTablesButtonClick" styleClass="menu-button" text="Tables">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
+                        <Button fx:id="ordersButton" onMouseClicked="#onOrdersButtonClick" styleClass="menu-button" text="Commandes">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#onOrdersCheckButtonClick" prefHeight="45.0" prefWidth="100.0" styleClass="menu-button" text="Check Orders" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
+                        <Button styleClass="menu-button" text="Statistiques">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
                         <Button styleClass="menu-button" text="Paramètres" />
                     </VBox>
                     <VBox alignment="BOTTOM_LEFT" prefHeight="268.0" prefWidth="108.0">

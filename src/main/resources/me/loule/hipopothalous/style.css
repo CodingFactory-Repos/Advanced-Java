@@ -32,6 +32,7 @@
     -fx-cursor: hand;
     -fx-transition: all 0.3s ease;
     -fx-border-width: 0px;
+    -fx-margin: 10px 0;
 }
 
 .title {
