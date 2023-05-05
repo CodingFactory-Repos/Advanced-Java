@@ -162,11 +162,11 @@ public class OrdersController {
                         price += rs.getDouble(1) * orderDish.getQuantity();
                     }
 
-                    String sql = "INSERT INTO orders (status, price,table_number, persons_per_table,date) VALUES (?, ?, ?, ?, ?)";
+                    String sql = "INSERT INTO orders (status, price, table_number, persons_per_table,date) VALUES (?, ?, ?, ?, ?)";
                     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                         preparedStatement.setString(1, "pending");
                         preparedStatement.setDouble(2, Math.round(price * 100.0) / 100.0);
-                        preparedStatement.setInt(3, Integer.parseInt(tfTableNumber.getValue()));
+                        preparedStatement.setString(3, tfTableNumber.getValue());
                         preparedStatement.setInt(4, Integer.parseInt(tfPersonNumber.getText()));
                         preparedStatement.setTimestamp(5, timestamp);
                         preparedStatement.executeUpdate();
