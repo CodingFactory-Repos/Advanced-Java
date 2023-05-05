@@ -71,6 +71,11 @@ public class WorkersController {
 
     int selectedWorkerId;
 
+    /**
+     * This function is called when the application starts
+     * It will initialize the table view
+     * It will also initialize all the buttons and forms
+     */
     public void initialize() {
         tcWorkerID.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
         tcWorkerLastName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLastName()));
@@ -89,6 +94,9 @@ public class WorkersController {
         handleFireWorker();
     }
 
+    /**
+     * This function will get the total hours of a worker
+     */
     @FXML
     protected void onAddWorkerButtonClick() {
         Connection connection = DatabaseConnection.getConnection();
@@ -124,6 +132,9 @@ public class WorkersController {
         });
     }
 
+    /**
+     * This function will get all the workers from the database
+     */
     protected void getWorkers() {
         Connection connection = DatabaseConnection.getConnection();
         String query = "SELECT * FROM workers";
@@ -146,6 +157,9 @@ public class WorkersController {
         }
     }
 
+    /**
+     * When the user clicks on the button, the form will be displayed
+     */
     private void handleSelectWorker() {
         tvWorkers.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -157,23 +171,11 @@ public class WorkersController {
                 selectedWorkerId = newValue.getId();
             }
         });
-
-        btnDeleteWorker.setOnAction(event -> {
-            WorkersModel selectedWorker = tvWorkers.getSelectionModel().getSelectedItem();
-            if (selectedWorker != null) {
-                Connection connection = DatabaseConnection.getConnection();
-                String query = "DELETE FROM workers WHERE worker_id = ?";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                    preparedStatement.setInt(1, selectedWorker.getId());
-                    preparedStatement.executeUpdate();
-                    workersList.remove(selectedWorker);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
+    /**
+     * When the user clicks on the button, a form will be displayed to add a new worker
+     */
     private void showAddForm() {
         btnShowAddForm.setOnAction(event -> {
             if (vbFormWorker.isVisible()) {
@@ -187,6 +189,9 @@ public class WorkersController {
         });
     }
 
+    /**
+     * When the user clicks on the button, a form will be displayed to add hours to a worker
+     */
     private void showAddHoursForm() {
         btnWorkerAddHours.setOnAction(event -> {
             if (vbFormHoursWorker.isVisible()) {
@@ -200,6 +205,9 @@ public class WorkersController {
         });
     }
 
+    /**
+     * This function will add more hours to a worker
+     */
     private void addHours() {
         btnWorkerAddMoreHours.setOnAction(event -> {
             Connection connection = DatabaseConnection.getConnection();
@@ -232,6 +240,12 @@ public class WorkersController {
         });
     }
 
+    /**
+     * @param id the id of the worker
+     * @return
+     * This function will get the total hours of a worker
+     * It will be used to display the total hours of a worker
+     */
     private String getTotalHours(int id) {
         String totalHours = "";
         Connection connection = DatabaseConnection.getConnection();
@@ -248,6 +262,10 @@ public class WorkersController {
         return totalHours;
     }
 
+    /**
+     * This function will delete a worker from the database
+     * It will also delete the hours of the worker from the database
+     */
     private void handleFireWorker() {
         btnDeleteWorker.setOnAction(event -> {
             WorkersModel selectedWorker = tvWorkers.getSelectionModel().getSelectedItem();
