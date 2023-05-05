@@ -6,7 +6,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import me.loule.hipopothalous.model.Accounting;
 import me.loule.hipopothalous.model.DatabaseConnection;
-import me.loule.hipopothalous.model.Orders;
 import me.loule.hipopothalous.model.TableModel;
 
 import java.sql.*;
@@ -202,7 +201,7 @@ public class OrdersController {
                     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                         preparedStatement.setString(1, "pending");
                         preparedStatement.setDouble(2, Math.round(price * 100.0) / 100.0);
-                        preparedStatement.setString(3, tfTableNumber.getValue());
+                        preparedStatement.setString(3, tfTableNumber.getText());
                         preparedStatement.setInt(4, Integer.parseInt(tfPersonNumber.getText()));
                         preparedStatement.setTimestamp(5, timestamp);
                         Accounting.createAccounting("Gain", Math.round(price * 100.0) / 100.0, timestamp);

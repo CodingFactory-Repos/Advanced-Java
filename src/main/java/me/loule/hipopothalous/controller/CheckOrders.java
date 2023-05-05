@@ -91,14 +91,14 @@ public class CheckOrders {
                 String sql = "SELECT * FROM orders ORDER BY date DESC";
                 rs = statement.executeQuery(sql);
                 while (rs.next()) {
-                    orders.add(new OrdersModel(
-                            rs.getInt("id"),
-                            rs.getString("status"),
-                            rs.getDouble("price"),
-                            rs.getInt("persons_per_table"),
-                            rs.getInt("table_number"),
-                            rs.getTimestamp("date")
-                    ));
+//                    orders.add(new OrdersModel(
+//                            rs.getInt("id"),
+//                            rs.getString("status"),
+//                            rs.getDouble("price"),
+//                            rs.getInt("persons_per_table"),
+//                            rs.getString("table_number"),
+//                            rs.getTimestamp("date")
+//                    ));
                 }
             }
 
