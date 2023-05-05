@@ -46,6 +46,7 @@ public class HelloController implements Initializable {
 
     @FXML
     private AnchorPane workersPane;
+    @FXML
     private AnchorPane dashboardPanel;
 
     //When we click on the welcomeButton, the welcomeVBox will be visible

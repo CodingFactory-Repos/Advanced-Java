@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import me.loule.hipopothalous.model.DatabaseConnection;
 import me.loule.hipopothalous.model.Dishes;
-import me.loule.hipopothalous.model.Orders;
+import me.loule.hipopothalous.model.OrdersModel;
 
 import java.sql.*;
 import java.sql.Date;
@@ -25,7 +25,7 @@ public class Dashboard {
     static Connection connection = DatabaseConnection.getConnection();
     List<Dishes> localDishes = new ArrayList<>();
 
-    List<Orders> localorders = new ArrayList<>();
+    List<OrdersModel> localorders = new ArrayList<>();
 
 
     public static void addDish(String name, String description, Double price) {
@@ -126,7 +126,7 @@ public class Dashboard {
                 String sql = "SELECT * FROM orders";
                 rs = statement.executeQuery(sql);
                 System.out.println("Je suis la");
-                List<Orders> localorders = new ArrayList<>();
+                List<OrdersModel> localorders = new ArrayList<>();
                 VBox container = new VBox();
                 while (rs.next()) {
                     String status = rs.getString("status");
@@ -136,7 +136,7 @@ public class Dashboard {
                         int dishes = rs.getInt("id");
                         int table = rs.getInt("table_number");
                         int personInTable = rs.getInt("persons_Per_Table");
-                        localorders.add(new Orders(dishes,rs.getString("status"),price, table, personInTable,date));
+                        localorders.add(new OrdersModel(dishes,rs.getString("status"),price, table, personInTable,date));
                         Label totalPriceLabel = new Label("Table :"+table + " Status:" + status +" Dates :" + date);
                         System.out.println(status);
                         totalPriceLabel.setPrefWidth(228);
@@ -158,7 +158,7 @@ public class Dashboard {
                 String sql = "SELECT * FROM orders ORDER BY status ASC";
                 rs = statement.executeQuery(sql);
                 System.out.println("Je suis la");
-                List<Orders> localorders = new ArrayList<>();
+                List<OrdersModel> localorders = new ArrayList<>();
                 VBox container = new VBox();
                 while (rs.next()) {
                     String status = rs.getString("status");
@@ -167,12 +167,12 @@ public class Dashboard {
                         int dishes = rs.getInt("id");
                         int table = rs.getInt("table_number");
                         int personInTable = rs.getInt("persons_Per_Table");
-                    localorders.add(new Orders(dishes,rs.getString("status"),price, table, personInTable,date));
+                    localorders.add(new OrdersModel(dishes,rs.getString("status"),price, table, personInTable,date));
                 }
-                List<Orders> sortedOrders = localorders.stream()
-                        .sorted(Comparator.comparing(Orders::getDate))
+                List<OrdersModel> sortedOrders = localorders.stream()
+                        .sorted(Comparator.comparing(OrdersModel::getDate))
                         .collect(Collectors.toList());
-                for (Orders order : sortedOrders) {
+                for (OrdersModel order : sortedOrders) {
                     int table = order.getTableNumber();
                     String status = order.getStatus();
                     Label totalPriceLabel = new Label("Table: " + table + " | Status: " + status);
@@ -194,7 +194,7 @@ public class Dashboard {
             try (Statement statement = connection.createStatement()) {
                 String sql = "SELECT * FROM orders ORDER BY status ASC";
                 rs = statement.executeQuery(sql);
-                List<Orders> localorders = new ArrayList<>();
+                List<OrdersModel> localorders = new ArrayList<>();
                 VBox container = new VBox();
                 while (rs.next()) {
                     String status = rs.getString("status");
@@ -203,12 +203,12 @@ public class Dashboard {
                     int dishes = rs.getInt("id");
                     int table = rs.getInt("table_number");
                     int personInTable = rs.getInt("persons_Per_Table");
-                    localorders.add(new Orders(dishes,rs.getString("status"),price, table, personInTable,date));
+                    localorders.add(new OrdersModel(dishes,rs.getString("status"),price, table, personInTable,date));
                 }
 
                 Map<String, Float> tablePriceMap = new HashMap<>();
 
-                for (Orders order : localorders) {
+                for (OrdersModel order : localorders) {
                     int table = order.getTableNumber();
                     String status = order.getStatus();
                     double price = order.getPrice();
@@ -241,7 +241,7 @@ public class Dashboard {
             try (Statement statement = connection.createStatement()) {
                 String sql = "SELECT * FROM orders ORDER BY status ASC";
                 rs = statement.executeQuery(sql);
-                List<Orders> localorders = new ArrayList<>();
+                List<OrdersModel> localorders = new ArrayList<>();
                 VBox container = new VBox();
                 while (rs.next()) {
                     String status = rs.getString("status");
@@ -250,12 +250,12 @@ public class Dashboard {
                     int dishes = rs.getInt("id");
                     int table = rs.getInt("table_number");
                     int personInTable = rs.getInt("persons_Per_Table");
-                    localorders.add(new Orders(dishes,rs.getString("status"),price, table, personInTable,date));
+                    localorders.add(new OrdersModel(dishes,rs.getString("status"),price, table, personInTable,date));
                 }
 
                 List<Pair<Integer, Double>> tablePriceList = new ArrayList<>();
 
-                for (Orders order : localorders) {
+                for (OrdersModel order : localorders) {
                     int table = order.getTableNumber();
                     String status = order.getStatus();
                     double price = order.getPrice();
