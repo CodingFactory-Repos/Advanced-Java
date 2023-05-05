@@ -10,6 +10,13 @@ public class Chronometry {
     public boolean isRunning;
 
     public boolean isServiceChrono;
+
+    /**
+     *
+     * @param isServiceChrono
+     * This function create the Chronometer
+     *
+     */
     protected void initializeChronometry(boolean isServiceChrono) {
         isRunning=true;
         if (!isServiceChrono){

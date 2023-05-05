@@ -8,20 +8,21 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import me.loule.hipopothalous.model.DishesModel;
+import me.loule.hipopothalous.model.Dishes;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class Dish implements Initializable {
+public class DishController implements Initializable {
 
     @FXML
     private Button addDishesButton;
 
-    private List<DishesModel> dishes;
+    private List<Dishes> dishes;
     @FXML
     private TextField nameTextField;
     @FXML
@@ -41,18 +42,28 @@ public class Dish implements Initializable {
     private ScrollPane listScrollPane;
 
 
+    /**
+     * @param url            The location used to resolve relative paths for the root object, or
+     *                       {@code null} if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or {@code null} if
+     *                       the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        dishes = DishesModel.getAllDish();
+        dishes = Dishes.getAllDish();
         assert dishes != null;
         dishes.stream()
-                .sorted(Comparator.comparing(DishesModel::getName))
+                .sorted(Comparator.comparing(Dishes::getName))
                 .forEach(dish -> {
                     dishComponent = new DishComponent(dish.getImage(), dish.getName(), dish.getPrice(), dish.getDescription());
                     listVBox.getChildren().add(dishComponent);
                 });
     }
 
+    /**
+     * This function is used to show or hide the anchorPane
+     * of the creation of dishes
+     */
     @FXML
     protected void onAddDishesButtonClick() {
         addDishesHBox.setVisible(!addDishesHBox.isVisible());
@@ -63,6 +74,10 @@ public class Dish implements Initializable {
         listScrollPane.setVisible(!listScrollPane.isVisible());
     }
 
+
+    /**
+     * This function put the data entered by the user and put it in the database
+     */
     @FXML
     protected void addDishes() {
         String dishName = nameTextField.getText();
@@ -94,10 +109,10 @@ public class Dish implements Initializable {
         }
 
 
-        DishesModel.addDish(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture);
+        Dishes.addDish(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture);
         dishComponent = new DishComponent(dishPicture, dishName, Double.valueOf(dishPrice), dishDescription);
 
-        dishes.add(new DishesModel(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture));
+        dishes.add(new Dishes(dishName, dishDescription, Double.valueOf(dishPrice), dishPicture));
 
         listVBox.getChildren().add(dishComponent);
 
