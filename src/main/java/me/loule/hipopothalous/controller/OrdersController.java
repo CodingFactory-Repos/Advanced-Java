@@ -91,11 +91,36 @@ public class OrdersController {
     List<OrderDish> dishes = new ArrayList<>();
 
     /**
-     * This function is called when the view is initialized
-     * It will load the dishes from the database and display them in the pagination
-     * It will also initialize the order list view
+     * This function is called when the application starts
+     * It will initialize the table view
      */
     public void initialize() {
+        getData();
+        addTableToList();
+        // on listview item press decrement quantity
+        lvOrder.setOnMouseClicked(event1 -> {
+            if (event1.getClickCount() == 2) {
+                OrderDish orderDish1 = lvOrder.getSelectionModel().getSelectedItem();
+                if (orderDish1.getQuantity() > 1) {
+                    orderDish1.decrementQuantity();
+                    lblTotalPrice.setText("Total: " + String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum()) + "€");
+                } else {
+                    orderDishes.remove(orderDish1);
+                    lblTotalPrice.setText("Total: " + String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum()) + "€");
+                }
+                lvOrder.getItems().clear();
+                lvOrder.getItems().addAll(orderDishes);
+            }
+        });
+
+    }
+
+    /**
+     * This function is used to add the tables to the table list
+     * It will get the tables from the database and add them to the table list
+     * It will also sort the tables by table number
+     */
+    public void getData(){
         try {
             Connection connection = DatabaseConnection.getConnection();
             ResultSet rs;
@@ -153,24 +178,6 @@ public class OrdersController {
         } catch (SQLException e) {
             Logger.getLogger(e.getMessage());
         }
-
-        addTableToList();
-        // on listview item press decrement quantity
-        lvOrder.setOnMouseClicked(event1 -> {
-            if (event1.getClickCount() == 2) {
-                OrderDish orderDish1 = lvOrder.getSelectionModel().getSelectedItem();
-                if (orderDish1.getQuantity() > 1) {
-                    orderDish1.decrementQuantity();
-                    lblTotalPrice.setText("Total: " + String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum()) + "€");
-                } else {
-                    orderDishes.remove(orderDish1);
-                    lblTotalPrice.setText("Total: " + String.format("%.2f", orderDishes.stream().mapToDouble(OrderDish::getTotalPrice).sum()) + "€");
-                }
-                lvOrder.getItems().clear();
-                lvOrder.getItems().addAll(orderDishes);
-            }
-        });
-
     }
 
 
@@ -249,8 +256,8 @@ public class OrdersController {
         }
     }
 
+    //Get all table from teh database and add them to the list
     public void addTableToList(){
-        //Get all table from teh database and add them to the list
         try {
             Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
