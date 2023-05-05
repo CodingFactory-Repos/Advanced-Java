@@ -1,9 +1,6 @@
 package me.loule.hipopothalous.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 import java.sql.Timestamp;
 
@@ -12,13 +9,15 @@ public class TableModel {
     private final IntegerProperty size;
     private final StringProperty location;
     private final Timestamp date;
+    private final StringProperty status;
 
 
-    public TableModel(int id, int size, String location, Timestamp date) {
+    public TableModel(int id, int size, String location, Timestamp date, String status) {
         this.id = new SimpleIntegerProperty(id);
         this.size = new SimpleIntegerProperty(size);
         this.location = new SimpleStringProperty(location);
         this.date = date;
+        this.status = new SimpleStringProperty(status);
     }
 
     public int getId() {
@@ -59,6 +58,18 @@ public class TableModel {
 
     public Timestamp getDate() {
         return date;
+    }
+
+    public String getStatus() {
+        return status.get();
+    }
+
+    public StringProperty statusProperty() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status.set(status);
     }
 
     @Override

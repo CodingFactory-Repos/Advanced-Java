@@ -13,20 +13,22 @@
         <children>
             <VBox prefHeight="328.0" prefWidth="128.0" spacing="10" styleClass="menu-bar">
                 <children>
-                    <Button fx:id="welcomeButton" onMouseClicked="#onWelcomeButtonClick" styleClass="menu-button" text="Accueil" />
-                    <Button fx:id="dishesButton" onMouseClicked="#onDishesButtonClick" styleClass="menu-button" text="Plats" />
-                    <Button fx:id="tablesButton" onMouseClicked="#onTablesButtonClick" styleClass="menu-button" text="Tables" />
-                    <Button fx:id="ordersButton" onMouseClicked="#onOrdersButtonClick" styleClass="menu-button" text="Commandes" />
-                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" styleClass="menu-button"
-                            prefWidth="100.0" text="Check Orders" textAlignment="CENTER" onMouseClicked="#onOrdersCheckButtonClick"/>
-                    <Button fx:id="workersButton" onMouseClicked="#onWorkersButtonClick" styleClass="menu-button" text="Workers" />
-                    <Button styleClass="menu-button" text="Statistiques" />
-                    <Button styleClass="menu-button" text="Paramètres" />
-               <VBox prefHeight="268.0" prefWidth="108.0">
-                  <children>
-                      <Button fx:id="ServiceBtn" onAction="#changeService" text="Service" />
-                     <Label fx:id="timerLbl" text="Label" />
-                  </children></VBox>
+                    <VBox prefHeight="268.0" prefWidth="108.0">
+                        <Button fx:id="welcomeButton" onMouseClicked="#onWelcomeButtonClick" styleClass="menu-button" text="Accueil" />
+                        <Button fx:id="dishesButton" onMouseClicked="#onDishesButtonClick" styleClass="menu-button" text="Plats" />
+                        <Button fx:id="tablesButton" onMouseClicked="#onTablesButtonClick" styleClass="menu-button" text="Tables" />
+                        <Button fx:id="ordersButton" onMouseClicked="#onOrdersButtonClick" styleClass="menu-button" text="Commandes" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#onOrdersCheckButtonClick" prefHeight="45.0" prefWidth="100.0" styleClass="menu-button" text="Check Orders" textAlignment="CENTER" />
+                        <Button fx:id="workersButton" onMouseClicked="#onWorkersButtonClick" styleClass="menu-button" text="Workers" />  
+                      <Button styleClass="menu-button" text="Statistiques" />
+                        <Button styleClass="menu-button" text="Paramètres" />
+                    </VBox>
+                    <VBox alignment="BOTTOM_LEFT" prefHeight="268.0" prefWidth="108.0">
+                        <children>
+                            <Button fx:id="ServiceBtn" onAction="#changeService" styleClass="menu-button" text="Service" />
+                            <Label fx:id="timerLbl" text="Label" />
+                        </children>
+                    </VBox>
                 </children>
             </VBox>
             <StackPane prefHeight="100.0" prefWidth="200.0">
@@ -39,6 +41,15 @@
                     <VBox alignment="CENTER" fx:id="welcomeVBox">
                         <Label styleClass="title" text="Bienvenue chez MonRestaurant"/>
                         <Label text="Ce logiciel permet la gestion des tables et des plats"/>
+
+                    <fx:include fx:id="dishesPanel" source="dish.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <fx:include fx:id="tablesPanel" source="table.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <fx:include fx:id="ordersPanel" source="orders2.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <fx:include fx:id="ordersCheckPanel" source="orders_check.fxml" visible="false" StackPane.alignment="CENTER" />
+                    <fx:include fx:id="workersPane" source="workers.fxml" visible="false" StackPane.alignment="CENTER"/>
+                      <VBox fx:id="welcomeVBox" alignment="CENTER">
+                        <Label styleClass="title" text="Bienvenue chez MonRestaurant" />
+                        <Label text="Ce logiciel permet la gestion des tables et des plats" />
                     </VBox>
                 </children>
                 <StackPane.margin>
